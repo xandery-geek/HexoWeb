@@ -1,0 +1,113 @@
+{% extends "index_base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-main-block">
+                    <h1 class="index-title"> A Blog Website </h1>
+                    <p class="index-subtitle">面向个人和团队，提供与众不同的知识管理，打造轻松流畅的工作协同</p>
+                    <div style="text-align: center">
+                        <img class="index-main-img" src="{%  static  'img/index-content.png'%}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-intro-block">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <div>
+                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <h2 class="index-intro-title">关于Hexo Web</h2>
+                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、
+                                PlantUML 等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-intro-block">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <h2 class="index-intro-title">Hexo 网站管理</h2>
+                            <img class="index-intro-icon" src="{% static '/img/website-sel.png' %}" alt="">
+                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、PlantUML
+                                等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                        </div>
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <div>
+                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-intro-block">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <div>
+                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <h2 class="index-intro-title">博客文章管理</h2>
+                            <img class="index-intro-icon" src="{% static '/img/article-sel.png' %}" alt="">
+                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、PlantUML
+                                等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-intro-block">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <h2 class="index-intro-title">Markdown 编辑器</h2>
+                            <img class="index-intro-icon" src="{% static '/img/editor-sel.png' %}" alt="">
+                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、PlantUML
+                                等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                        </div>
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <div>
+                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-3 index-footer">
+        <div class="container">
+            <div class="small text-center index-footer-link">
+                <a href="{% url 'index'%}">关于Hexo Web</a>
+                <a href="{% url 'index'%}">Hexo Web服务</a>
+                <a href="{% url 'index'%}">项目Github</a>
+                <a href="{% url 'index'%}">致谢</a>
+            </div>
+            <div class="small text-center text-muted">Copyright &copy; 2020 YuanXu</div>
+        </div>
+    </footer>
+
+{% endblock %}
+

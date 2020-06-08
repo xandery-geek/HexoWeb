@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                <nav class="blog-sidebar">
+                    <div>
+                        <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'website' %}">
+                            <img src="{% static 'img/website.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'blog' %}">
+                            <img src="{% static 'img/article.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'editor' %}">
+                            <img src="{% static 'img/editor.png' %}"  width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'user' %}">
+                            <img src="{% static 'img/user-sel.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="blog-right-block">
+                <div class="user-main" id="mainBoard">
+                    <h1 class="profile-header">个人信息</h1>
+                    <p class="profile-header-desc">您在Hexo Web中的个人信息，例如昵称，邮箱等。</p>
+                    <div class="profile-main">
+                        <section class="profile-section">
+                            <article class="profile-article">
+                                <div class="profile-class1">
+                                    <div class="profile-class2">
+                                        <div class="profile-class3">
+                                            <div>
+                                                <div class="profile-card-title">
+                                                    <h4>个人资料</h4>
+                                                    <p class="profile-class-desc">该部分信息仅用于展示</p>
+                                                </div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item" style="height: 60px">
+                                                        <div class="profile-label">头像</div>
+                                                        <div class="profile-label" style="flex-basis: 300px;">头像帮助您个性化您的账号</div>
+                                                        <figure class="profile-image" onclick="$('#modalCenter').modal();">
+                                                            <a href="javascript:void(0);" >
+                                                                {% if avatar.url %}
+                                                                    <img src="{{ avatar.url }}" width="60px" alt="avatar">
+                                                                {% else %}
+                                                                    <img src="{% static 'img/avatar.png' %}" width="60px" alt="avatar">
+                                                                {% endif %}
+                                                            </a>
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item">
+                                                        <div class="profile-label">昵称</div>
+                                                        <div class="profile-value">{{nick}}</div>
+                                                        <a class="profile-btn" href="{% url 'user_update' 'nick' %}"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item">
+                                                        <div class="profile-label">个人简介</div>
+                                                        <div class="profile-value">{{desc}}</div>
+                                                        <a class="profile-btn" href="{% url 'user_update' 'desc' %}"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="profile-article">
+                                <div class="profile-class1">
+                                    <div class="profile-class2">
+                                        <div class="profile-class3">
+                                            <div>
+                                                <div class="profile-card-title">
+                                                    <h4>联系方式</h4>
+                                                    <p class="profile-class-desc">用于通知和身份验证</p>
+                                                </div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item">
+                                                        <div class="profile-label">邮箱</div>
+                                                        <div class="profile-value">{{email}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="profile-article">
+                                <div class="profile-class1">
+                                    <div class="profile-class2">
+                                        <div class="profile-class3">
+                                            <div>
+                                                <div class="profile-card-title">
+                                                    <h4>Hexo Web账号</h4>
+                                                    <p class="profile-class-desc">管理您的个人账号</p>
+                                                </div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item">
+                                                        <div class="profile-label">密码</div>
+                                                        <div class="profile-value">{{password}}</div>
+                                                        <a class="profile-btn" href="{% url 'user_update' 'password' %}"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item">
+                                                        <div class="profile-label">退出账号</div>
+                                                        <a class="profile-btn" href="{% url 'logout' %}"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">更新头像</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form enctype="multipart/form-data" method="post" action="{% url 'user_update' 'avatar' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        从本地文件中选择您的头像。
+                        <input type="file" name="avatar" accept="image/*">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

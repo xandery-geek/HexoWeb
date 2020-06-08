@@ -1,0 +1,76 @@
+{% extends "index_base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web | 重置密码
+{% endblock %}
+
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="login-block">
+                <img class="login-logo" src="{% static 'img/hexo-logo.png' %}" alt="">
+                <div>Hexo Web</div>
+                <div class="login-form">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label for="email"></label>
+                            <div class="col-sm-12">
+                                <div class="login-form-div">
+                                    <span><img class="login-form-icon" src="{% static 'img/email.png' %}" alt=""></span>
+                                    <input type="email" class="form-control login-form-control" id="email"
+                                           name="email" placeholder="邮箱">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="verify_code"></label>
+                            <div class="col-sm-8">
+                                <div class="login-form-div">
+                                    <span><img class="login-form-icon" src="{% static 'img/code.png' %}" alt=""></span>
+                                    <input type="text" class="form-control login-form-control" id="verify_code"
+                                           name="verify_code" placeholder="验证码">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn login-btn" onclick="return get_verify_code(this.form);">发送</button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password"></label>
+                            <div class="col-sm-12">
+                                <div class="login-form-div">
+                                    <span><img class="login-form-icon" src="{% static 'img/lock.png' %}" alt=""></span>
+                                    <input type="password" class="form-control login-form-control" id="password"
+                                           name="password" placeholder="密码">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="re_password"></label>
+                            <div class="col-sm-12">
+                                <div class="login-form-div">
+                                    <span><img class="login-form-icon" src="{% static 'img/lock.png' %}" alt=""></span>
+                                    <input type="password" class="form-control login-form-control" id="re_password"
+                                           name="re_password" placeholder="重复密码">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn login-btn" onclick="return reset_check(this.form);">重置密码</button>
+                            </div>
+                        </div>
+                        <div>
+                            <span><a class="login-a" href="{% url 'login'%}">去登录？</a></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

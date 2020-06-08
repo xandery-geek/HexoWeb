@@ -1,0 +1,129 @@
+{% extends "theme_update.html" %}
+
+{% block theme_title %}
+    {{ title }}
+{% endblock %}
+
+{% block theme_form %}
+    {% if id %}
+        <form enctype="multipart/form-data" action="{% url 'theme_operate' id name operate %}"
+              method="post">
+    {% else %}
+        <form enctype="multipart/form-data" action="{% url 'theme_operate' 0 name operate %}"
+              method="post">
+    {% endif %}
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-sm-12">
+                <label class="website-form-title">UI配置</label>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-sm-6">
+                <label for="faviconFile">Favicon</label>
+                <input type="file" class="form-control-file" id="faviconFile" name="favicon">
+                <small  class="form-text text-muted">
+                    {{ form.favicon.label }}
+                </small>
+                <div class="invalid-feedback" style="display: block; font-size: 1rem;">
+                    {{ form.favicon.errors }}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <img style="float: right; width: 100px" src="{{ favicon }}" alt="">
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-sm-12">
+                <label for="bannerFile">Banner</label>
+                <input type="file" class="form-control-file" id="bannerFile" name="banner">
+                <small class="form-text text-muted">
+                    {{ form.banner.label }}
+                </small>
+                <div class="invalid-feedback" style="display: block; font-size: 1rem;">
+                    {{ form.banner.errors }}
+                </div>
+            </div>
+            <div class="coll-sm-12">
+                <img style="width: 100%" src="{{ banner }}" alt="">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-sm-12">
+                <label class="website-form-title">页面内容配置</label>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <label for="readMore" class="col-sm-12 col-form-label">更多</label>
+            <input type="text" class="form-control col-sm-12" id="readMore" name="excerpt_link" placeholder="ReadMore"
+                   value="{{ form.excerpt_link.initial }}">
+            <small  class="text-muted">
+                {{ form.excerpt_link.label }}
+            </small>
+            <div class="invalid-feedback" style="display: block; font-size: 1rem;">
+                {{ form.excerpt_link.errors }}
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <label class="website-form-title">侧边栏配置</label>
+            <div class=" col-sm-12">
+                <label for="sidebar_position">侧边栏位置</label>
+                <select class="custom-select" id="sidebar_position" name="position">
+                    {% for p in position %}
+                        {% if forloop.counter0 == position_sel %}
+                            <option value="{{ forloop.counter0 }}" selected>{{ p }}</option>
+                        {% else %}
+                            <option value="{{ forloop.counter0 }}">{{ p }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <small  class="form-text text-muted">
+                    {{ form.position.label }}
+                </small>
+                <div class="invalid-feedback" style="display: block; font-size: 1rem;">{{ form.position.errors }}</div>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <label class="col-sm-12 col-form-label" for="sidebar_position">侧边栏Widget</label>
+            <div class="col-sm-12">
+                {% for sel, item, name in widgets %}
+                    <div class="form-check form-check-inline">
+                        {% if sel == True %}
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="{{ name }}" checked>
+                        {% else %}
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="{{ name }}">
+                        {% endif %}
+                        <label class="form-check-label" for="inlineCheckbox1">{{ item }}</label>
+                    </div>
+                {% endfor %}
+                <small  class="form-text text-muted">
+                    {{ form.widgets.label }}
+                </small>
+                <div class="invalid-feedback" style="display: block; font-size: 1rem;">{{ form.widgets.errors }}</div>
+            </div>
+        </div>
+        <div class="form-row orm-group">
+            <div class="col-sm-6">
+                <div class="form-check">
+                    {% if form.show_count.initial == True %}
+                        <input class="form-check-input" type="checkbox" checked id="showCountCheck" name="show_count">
+                    {% else %}
+                        <input class="form-check-input" type="checkbox" id="showCountCheck" name="show_count">
+                    {% endif %}
+                    <label class="form-check-label" for="showCountCheck">
+                        显示文章数量
+                    </label>
+                </div>
+                <small  class="form-text text-muted">
+                    {{ form.show_count.label }}
+                </small>
+                <div class="invalid-feedback" style="display: block; font-size: 1rem;">{{ form.show_count.errors }}</div>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-sm-12" style="display: block;width: 100%">
+                <button type="submit" class="btn btn-primary" style="float: right">确定</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

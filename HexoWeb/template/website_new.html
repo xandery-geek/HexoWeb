@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                <nav class="blog-sidebar">
+                    <div>
+                        <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'website' %}">
+                            <img src="{% static 'img/website-sel.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'blog' %}">
+                            <img src="{% static 'img/article.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'editor' %}">
+                            <img src="{% static 'img/editor.png' %}"  width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'user' %}">
+                            <img src="{% static 'img/user.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="website-right-block2">
+                <div class="website-title-bar">
+                    <h4 class="website-title">新建网站</h4>
+                </div>
+                <div class="website-main-block2">
+                    <div class="website-form-block">
+                        <form action="{% url 'website_new' %}" method="post" onsubmit="return check_website_form(this);">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-sm-12">
+                                    <label class="website-form-title">基本信息</label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputTitle">Title</label>
+                                    <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Title">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputSubtitle">Subtitle</label>
+                                    <input type="text" class="form-control" id="inputSubtitle" name="subtitle" placeholder="Subtitle">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDescription">Description</label>
+                                <textarea type="text" class="form-control" id="inputDescription" name="desc" placeholder="Description" rows="3"></textarea>
+                                <small  class="form-text text-muted">
+                                    描述：128字以内
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputKeyword">Keyword</label>
+                                <input type="text" class="form-control" id="inputKeyword" name="keyword" placeholder="Keyword">
+                                <small  class="form-text text-muted">
+                                    多个关键字通过空格分割
+                                </small>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="inputAuthor">Author</label>
+                                    <input type="text" class="form-control" id="inputAuthor" name="author" placeholder="Author">
+                                    <small  class="form-text text-muted">
+                                        网站文章的作者姓名或者昵称
+                                    </small>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputPerPage">Per page</label>
+                                    <input type="text" class="form-control" id="inputPerPage" name="per_page" placeholder="6">
+                                    <small  class="form-text text-muted">
+                                        设置每页显示的文章个数
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-12">
+                                    <label class="website-form-title">服务器设置</label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputUrl">网站Url</label>
+                                    <input type="text" class="form-control" id="inputUrl" name="url" placeholder="http://yoursite.com/">
+                                    <small  class="form-text text-muted">
+                                        网站的url，如果您的网站放在子目录下,url需要设置为 'http://yoursite.com/child'
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputRepository">Git 仓库</label>
+                                    <input type="text" class="form-control" id="inputRepository" name="repository" placeholder=" https://github.com/username.github.io.git">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputBranch">Git 分支</label>
+                                    <input type="text" class="form-control" id="inputBranch" name="branch" placeholder="master">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputUsername">Git服务器用户名</label>
+                                    <input type="text" class="form-control" id="inputUsername" name="git_username" placeholder="username">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword">Git服务器密码</label>
+                                    <input type="password" class="form-control" name="git_password" id="inputPassword">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-sm-12" style="display: block;width: 100%">
+                                    <button type="submit" class="btn btn-primary" style="float: right">创建</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

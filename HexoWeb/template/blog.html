@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css' %}" />
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                    <nav class="blog-sidebar">
+                        <div>
+                            <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                        </div>
+                        <div class="blog-sidebar-item">
+                            <a href="{% url 'website' %}">
+                                <img src="{% static 'img/website.png' %}" width="32px" height="32px" alt="">
+                            </a>
+                        </div>
+                        <div class="blog-sidebar-item">
+                            <a href="{% url 'blog' %}">
+                                <img src="{% static 'img/article-sel.png' %}" width="32px" height="32px" alt="">
+                            </a>
+                        </div>
+                        <div class="blog-sidebar-item">
+                            <a href="{% url 'editor' %}">
+                                <img src="{% static 'img/editor.png' %}"  width="32px" height="32px" alt="">
+                            </a>
+                        </div>
+                        <div class="blog-sidebar-item">
+                            <a href="{% url 'user' %}">
+                                <img src="{% static 'img/user.png' %}" width="32px" height="32px" alt="">
+                            </a>
+                        </div>
+                    </nav>
+                    <nav class="blog-category-bar">
+                        <div class="blog-operate-item">
+                            <button class="btn blog-operate-btn" style="background-image: url('../static/img/edit.png')"
+                                    data-toggle="tooltip" data-placement="top"
+                                    title="新建" onclick="window.location.href={% url 'editor' %}"></button>
+                            <button class="btn blog-operate-btn" style="background-image: url('../static/img/search.png')" data-toggle="tooltip" data-placement="top"
+                                    title="查找" onclick="$('#searchModal').modal()"></button>
+                            <button class="btn blog-operate-btn" style="background-image: url('../static/img/upload.png')"
+                                    data-toggle="tooltip" data-placement="top"
+                                    title="更新" onclick="$('#updateModal').modal()"></button>
+                        </div>
+                        <div id="accordionExample">
+                            <div class="card" style="border: none">
+                                <div class="card-header blog-category-item">
+                                    <h6 class="blog-category-text" style="padding-left: 3.5rem" onclick="get_all_post()">
+                                        全部
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="card" style="border: none">
+                                <div class="card-header blog-category-item">
+                                    <h6 class="blog-category-text" style="padding-left: 3.5rem" onclick="get_draft()">
+                                        草稿
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="card" style="border: none">
+                                <div class="card-header blog-category-item" id="heading1">
+                                    <button class="blog-tri-down blog-category-tri" type="button" id="dropdown-btn1"
+                                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
+                                            aria-controls="collapseOne" onclick="change_dropdown_class(this, 1, 2)">
+                                    </button>
+                                    <h6 class="blog-category-text">
+                                        分类
+                                    </h6>
+                                </div>
+                                <div id="collapseOne" class="collapse" aria-labelledby="heading1" data-parent="#accordionExample">
+                                    {% for c in cate %}
+                                        <div class="blog-dropdown-item blog-dropdown-cate" name="{{ c.id }}"
+                                             onclick="get_post_by_category(this)">{{ c.name }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card" style="border: none">
+                                <div class="card-header blog-category-item" id="heading2">
+                                    <button class="blog-tri-down blog-category-tri" type="button" id="dropdown-btn2"
+                                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseThree" onclick="change_dropdown_class(this, 2, 2)">
+                                    </button>
+                                    <h6 class="blog-category-text">
+                                        标签
+                                    </h6>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="heading2" data-parent="#accordionExample">
+                                    {% for t in tag %}
+                                        <div class="blog-dropdown-item blog-dropdown-tag" name="{{ t.id }}"
+                                             onclick="get_post_by_tag(this)">{{ t.name }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            <div class="blog-right-block">
+                <nav class="blog-article-bar" id="postList">
+                    {% for p in posts %}
+                        <div class="blog-article-item">
+                            <div>
+                                <div class="blog-article-title" name="{{ p.id }}" onclick="get_post(this);">
+                                    {{ p.title }}
+                                </div>
+                                <span class="blog-article-edit" data-id="{{ p.id }}" onclick="edit_post(this);"></span>
+                                <span class="blog-article-delete" data-id="{{ p.id }}" data-toggle="modal"
+                                      data-target="#deleteModal"></span>
+                            </div>
+                            <p class="blog-article-date">{{ p.update_time }}</p>
+                        </div>
+                    {% endfor %}
+                </nav>
+                <div class="blog-main" id="postDetail">
+                {% if first %}
+                    <h2 class="blog-title">{{ first.title }} </h2>
+                    <p class="blog-date">{{ first.update_time }}</p>
+                    <div class="">
+                        {% for t in first_tags %}
+                            <div class="blog-tag">{{ t.name }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="horizontal-bar" style="height: 2px;"></div>
+                    <div class="blog-content">
+                        <div id="markdown-view">
+                            <label for="markdown-append-text"></label>
+                            <textarea id="markdown-append-text" style="display:none;">{{ first.content }}</textarea>
+                        </div>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">查找文章</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="editor-modal-body">
+                    <label for="searchInput"></label>
+                    <input type="text" class="form-control blog-search-input" id="searchInput" name="keyword" placeholder="名称"
+                           onkeydown="return search_post(event, this);">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">删除文章</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>确定删除该文章？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deleteModalOk">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">更新文章</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>确定发布所有已经更新的文章？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="updateModalOk">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_script2 %}
+    <script src="{% static 'editor/editormd.js' %}"></script>
+    <script src="{% static 'editor/lib/marked.min.js' %}"></script>
+    <script src="{% static 'editor/lib/prettify.min.js' %}"></script>
+    <script type="text/javascript">
+        $(function() {
+            let editor_view = editormd.markdownToHTML("markdown-view", {
+                markdown : $("#markdown-append-text").text(),
+                emoji    : true,
+                taskList : true,
+                tex      : true,
+                // htmlDecode : true,  // Enable / disable HTML tag encode.
+                htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+            });
+        });
+    </script>
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            let target = $(event.relatedTarget) // Button that triggered the modal
+            let id = target.data('id') // Extract info from data-* attributes
+            $('#deleteModalOk').on('click', function () {
+                delete_post(id);
+            });
+        });
+        $('#updateModalOk').on('click', update_all_post);
+    </script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                <nav class="blog-sidebar">
+                    <div>
+                        <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'website' %}">
+                            <img src="{% static 'img/website-sel.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'blog' %}">
+                            <img src="{% static 'img/article.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'editor' %}">
+                            <img src="{% static 'img/editor.png' %}"  width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'user' %}">
+                            <img src="{% static 'img/user.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="website-right-block2">
+                <div class="website-title-bar">
+                    <h4 class="website-title">网站列表</h4>
+                    <div class="btn-group website-btn-group" role="group">
+                        <button class="website-btn website-btn-light" onclick="window.location.href='{% url 'website_new' %}';">新建网站</button>
+                    </div>
+                </div>
+                <div class="website-main-block2">
+                    {% if count > 0 %}
+                        <div class="row" style="margin: 0">
+                            {% for w in websites %}
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <div class="website-instance" onclick="goto_link('{% url 'website_detail' w.id %}')">
+                                    <div class="website-instance-title-row">
+                                        <div style="display: inline-block; width: 100%">
+                                            <h4 class="website-instance-title" >{{ w.title }}</h4>
+                                            <span class="website-manage-btn"></span>
+                                        </div>
+                                        <p class="website-instance-desc">{{ w.subtitle }}</p>
+                                    </div>
+                                    <div class="website-instance-status">
+                                        <span class="website-status"></span>
+                                        运行中
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>Welcome!</strong> 您还没有网站，请点击右侧按钮快速创建。
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

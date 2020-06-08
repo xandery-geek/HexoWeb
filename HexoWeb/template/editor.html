@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'editor/css/editormd.css' %}" />
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                <nav class="blog-sidebar">
+                    <div>
+                        <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'website' %}">
+                            <img src="{% static 'img/website.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'blog' %}">
+                            <img src="{% static 'img/article.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'editor' %}">
+                            <img src="{% static 'img/editor-sel.png' %}"  width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'user' %}">
+                            <img src="{% static 'img/user.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="blog-right-block editor-right-block" >
+                <div class="editor-edit-block">
+                    <label for="postTitle"></label>
+                    <input class="form-control editor-title" type="text" id="postTitle" placeholder="标题"
+                           value="{{ title }}" onchange="post_editor.on_title_changed()">
+                    <div id="editor_view">
+                        <label for="markdown-append-text"></label>
+                        <textarea id="markdown-append-text" style="display: none;">{{ content }}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="editor-right-bar" id="editor_right_bar">
+                <div class="editor-right-card">
+                    <h2>发布</h2>
+                    <div class="editor-right-divider"></div>
+                    <div class="editor-right-operation">
+                        <div class="custom-control custom-switch editor-right-switch">
+                            {% if status == 1 %}    <!--Normal-->
+                                <input type="checkbox" class="custom-control-input" disabled id="draftSwitch">
+                            {% elif status == 2 %}  <!--Draft-->
+                                <input type="checkbox" class="custom-control-input" disabled checked id="draftSwitch">
+                            {% else %} <!--New-->
+                                <input type="checkbox" class="custom-control-input" id="draftSwitch">
+                            {% endif %}
+                            <label class="custom-control-label" for="draftSwitch">草稿</label>
+                        </div>
+                        <button type="button" class="editor-right-btn" data-id="{{ id }}" onclick="post_editor.save_post(this)">保存</button>
+                        <button type="button" class="editor-right-btn" data-id="{{ id }}" onclick="post_editor.release_post(this)">发布</button>
+                    </div>
+                </div>
+                <div class="editor-right-card">
+                    <h2>分类</h2>
+                    <div class="editor-right-divider"></div>
+                    <div class="">
+                        <label class="mr-sm-2" for="categorySelect"></label>
+                        <select class="custom-select mr-sm-2 editor-dropdown-menu" id="categorySelect"
+                                data-cate="{{ cate.name }}" onchange="post_editor.on_cate_changed()">
+                            <option selected>请选择分类</option>
+                            {% for c in cate_list %}
+                                <option value="{{ c.id }}">{{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" class="editor-add-btn" onclick="$('#categoryModal').modal();">添加</button>
+                    </div>
+                </div>
+                <div class="editor-right-card">
+                    <h2>标签</h2>
+                    <div class="editor-right-divider"></div>
+                    <div class="editor-tag-group" id="tagGroup">
+                        {% for t in tag %}
+                            <div class="editor-closeable-tag">
+                                <span class="editor-span">{{ t.name }}</span>
+                                <span class="editor-close-btn" onclick="post_editor.remove_tag(this)"></span>
+                            </div>
+                        {% endfor %}
+                        <button type="button" class="editor-add-btn editor-add-tag"
+                                onclick="$('#tagModal').modal();">添加
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">添加新的分类</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form enctype="multipart/form-data" method="post" action="{% url 'category_operate' '0' 'create'%}"
+                    onkeydown="return prevent_form_enter(event);">
+                    {% csrf_token %}
+                    <div class="editor-modal-body">
+                        <div class="editor-modal-row">
+                            <label>
+                                <input class="form-control editor-modal-input" type="text" name="name" placeholder="分类名称">
+                            </label>
+                            <button type="button" class="btn btn-primary editor-modal-btn"
+                            onclick="post_editor.create_category(this.form)">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tagModalTitle">选择标签</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="editor-modal-body">
+                    <div class="editor-modal-row">
+                        <label for="tagSelect"></label>
+                        <select class="custom-select mr-sm-2 editor-modal-input" id="tagSelect">
+                            <option selected>请选择标签</option>
+                            {% for t in tag_list %}
+                                <option value="{{ t.id }}">{{ t.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" class="btn btn-primary editor-modal-btn"
+                        onclick="post_editor.add_tag_to_group()">添加</button>
+                    </div>
+                    <div class="editor-modal-row">
+                        <label for="tagInput"></label>
+                        <input class="form-control editor-modal-input" type="text" id="tagInput" name="name" placeholder="标签名称">
+                        <button type="button" class="btn btn-danger editor-modal-btn" onclick="post_editor.create_tag(this);">创建</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_script %}
+    <script src="{% static 'editor/editormd.js' %}"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            select_category();
+        }
+    </script>
+    <script type="text/javascript">
+        var markdown_editor;
+        $(function() {
+            markdown_editor = editormd("editor_view", {
+                width: "100%",
+                height: "80%",
+                path : '/static/editor/lib/',
+                //theme : "dark",
+                //previewTheme : "dark",
+                //editorTheme : "pastel-on-dark",
+                markdown : $("#markdown-append-text").text(),
+                placeholder: 'Enjoy Hexo Web! start your article!',
+                codeFold : true,
+                //syncScrolling : false,
+                saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                searchReplace : true,
+                watch : true,                // 关闭实时预览
+                htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                //toolbar  : false,             //关闭工具栏
+                //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                emoji : true,
+                taskList : true,
+                tocm            : true,         // Using [TOCM]
+                tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                //flowChart : true,             // 开启流程图支持，默认关闭
+                //sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+                //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+                //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                //imageUpload : true,
+                //imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                // : "./php/upload.php",
+                onload : function() {
+                    //this.fullscreen();
+                    //this.unwatch();
+                    //this.watch().fullscreen();
+
+                    //this.setMarkdown("#PHP");
+                    //this.width("100%");
+                    //this.height(480);
+                    //this.resize("100%", 640);
+
+                    $('.editormd-markdown-textarea').onchange = function () {
+                        post_editor.content_changed = true;
+                    }
+                },
+                onfullscreen: function () {
+                    let right_bar = $("#editor_right_bar");
+                    right_bar.attr('style', 'display:none;');
+                },
+                onfullscreenExit: function () {
+                    let right_bar = $("#editor_right_bar");
+                    right_bar.attr('style', 'display:block;');
+                },
+                onchange: function () {
+                    post_editor.content_changed = true;
+                }
+            });
+        });
+    </script>
+{% endblock %}

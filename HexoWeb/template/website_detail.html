@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                <nav class="blog-sidebar">
+                    <div>
+                        <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'website' %}">
+                            <img src="{% static 'img/website-sel.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'blog' %}">
+                            <img src="{% static 'img/article.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'editor' %}">
+                            <img src="{% static 'img/editor.png' %}"  width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'user' %}">
+                            <img src="{% static 'img/user.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="website-right-block">
+                <div class="website-title-bar" >
+                    <h4 class="website-title">YuanXu's Blog</h4>
+                    <div class="btn-group website-btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="website-btn website-btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            导出
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="{% url 'website_export' website.id 'markdown' %}">导出Markdown</a>
+                            <a class="dropdown-item" href="{% url 'website_export' website.id 'hexo' %}">导出Hexo</a>
+                        </div>
+                        <button class="website-btn website-btn-dark" data-id="{{ website.id }}"
+                                data-toggle="modal" data-target="#deleteModal">删除网站</button>
+                    </div>
+                </div>
+                <div class="website-main-block">
+                    <div>
+                        <div class="website-item">
+                            <h6 class="website-item-title">基本信息配置</h6>
+                            <div class="website-card">
+                                <div class="website-card-inner-block" style="width: 45%">
+                                    <div class="website-card-item">
+                                        <span class="message-label">Title:</span>
+                                        <span class="message-content">{{ website.title }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Subtitle:</span>
+                                        <span class="message-content">{{ website.subtitle }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Description:</span>
+                                        <span class="message-content">{{ website.desc }}</span>
+                                    </div>
+                                </div>
+                                <div class="website-card-inner-block" style="width: 45%">
+                                    <div class="website-card-item">
+                                        <span class="message-label">Keyword:</span>
+                                        <span class="message-content">{{ website.keyword }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Author:</span>
+                                        <span class="message-content">{{ website.author }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">per page:</span>
+                                        <span class="message-content">{{ website.per_page }}</span>
+                                    </div>
+                                </div>
+                                <div class="vertical-bar" style="height: 90%"></div>
+                                <div class="website-card-inner-block" style="width: 10%">
+                                    <div class="website-card-item">
+                                        <a class="message-link" href="{% url 'website_update' website.id 'basic' %}">修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="website-item">
+                            <h6 class="website-item-title">部署配置</h6>
+                            <div class="website-card">
+                                <div class="website-card-inner-block" style="width: 45%">
+                                    <div class="website-card-item">
+                                        <span class="message-label">URL:</span>
+                                        <span class="message-content">{{ website.url }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Git repository:</span>
+                                        <span class="message-content">{{ website.repository }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Git branch:</span>
+                                        <span class="message-content">{{ website.branch }}</span>
+                                    </div>
+                                </div>
+                                <div class="website-card-inner-block" style="width: 45%">
+                                    <div class="website-card-item">
+                                        <span class="message-label">Git username:</span>
+                                        <span class="message-content">{{ website.git_username }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Git password:</span>
+                                        <span class="message-content">******</span>
+                                    </div>
+                                </div>
+                                <div class="vertical-bar" style="height: 90%"></div>
+                                <div class="website-card-inner-block" style="width: 10%">
+                                    <div class="website-card-item">
+                                        <a class="message-link" href="{% url 'website_update' website.id 'deploy' %}">修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="website-item">
+                            <h6 class="website-item-title">主题配置</h6>
+                            <div class="website-card website-photo-card">
+                                <div class="website-card-inner-block" style="width: 45%">
+                                    <img src="{{ cur_theme.template.preview.url }}" alt="">
+                                </div>
+                                <div class="website-card-inner-block" style="width: 45%">
+                                    <div class="website-card-item">
+                                        <span class="message-label">Theme:</span>
+                                        <span class="theme-title">{{ cur_theme.template.name }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Description:</span>
+                                        <span class="message-content">{{ cur_theme.template.desc }}</span>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <span class="message-label">Tags:</span>
+                                        <span class="message-content">
+                                                <span class="theme-tag">{{ cur_theme.template.tags }}</span>
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="vertical-bar" style="height: 90%"></div>
+                                <div class="website-card-inner-block" style="width: 10%">
+                                    <div class="website-card-item">
+                                        <a class="message-link" href="{% url 'theme_operate' cur_theme.id cur_theme.template.name 'update' %}">修改</a>
+                                    </div>
+                                    <div class="website-card-item">
+                                        <a class="message-link" href="{% url 'website_theme' %}">更换</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for t in themes %}
+                                <div class="website-card website-photo-card">
+                                    <div class="website-card-inner-block" style="width: 45%">
+                                        <img src="{% static 'img/theme/landscape.jpg' %}" alt="">
+                                    </div>
+                                    <div class="website-card-inner-block" style="width: 45%">
+                                        <div class="website-card-item">
+                                            <span class="message-label">Theme:</span>
+                                            <span class="theme-title">{{ t.template.name }}</span>
+                                        </div>
+                                        <div class="website-card-item">
+                                            <span class="message-label">Description:</span>
+                                            <span class="message-content">{{ t.template.desc }}</span>
+                                        </div>
+                                        <div class="website-card-item">
+                                            <span class="message-label">Tags:</span>
+                                            <span class="message-content">
+                                                <span class="theme-tag">{{ t.template.tags }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="vertical-bar" style="height: 90%"></div>
+                                    <div class="website-card-inner-block" style="width: 10%">
+                                        <div class="website-card-item">
+                                            <a class="message-link" href="{% url 'theme_operate' t.id t.template.name 'update' %}">修改</a>
+                                        </div>
+                                        <div class="website-card-item">
+                                            <a class="message-link" href="javascript:void(0);" onclick="delete_theme(this);"
+                                               data-name="{{ t.template.name }}" data-id="{{ t.id }}">删除</a>
+                                        </div>
+                                        <div class="website-card-item">
+                                            <a class="message-link" href="{% url 'website_theme' %}">使用</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">删除网站</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: red">确定删除该网站？一旦删除，该网站下所有文章都被删除！</p>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail">输入用户名（邮箱）确认删除</label>
+                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="email">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deleteModalOk">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_script2 %}
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            let target = $(event.relatedTarget); // Button that triggered the modal
+            let id = target.data('id'); // Extract info from data-* attributes
+            $('#deleteModalOk').on('click', function () {
+                let email = $('#inputEmail').val();
+                delete_website(id, email);
+            });
+        });
+    </script>
+{% endblock %}

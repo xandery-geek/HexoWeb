@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid" style="height: 100%">
+        <div class="row blog-row">
+            <div class="blog-left-block">
+                <nav class="blog-sidebar">
+                    <div>
+                        <img class="blog-sidebar-logo" src="{% static 'img/hexo-logo.png' %}"  alt="">
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'website' %}">
+                            <img src="{% static 'img/website.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'blog' %}">
+                            <img src="{% static 'img/article.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'editor' %}">
+                            <img src="{% static 'img/editor.png' %}"  width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                    <div class="blog-sidebar-item">
+                        <a href="{% url 'user' %}">
+                            <img src="{% static 'img/user-sel.png' %}" width="32px" height="32px" alt="">
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="blog-right-block">
+                <div class="user-main" id="mainBoard">
+                    <h3 class="profile-header">{{ title }}</h3>
+                    <p class="profile-header-desc">{{ desc }}</p>
+                    <div class="profile-main">
+                        <div class="form-content-class1">
+                            <form action="{% url 'user_update' slug %}" method="post">
+                                {% csrf_token %}
+                                {% for item in items %}
+                                    {% if item.type == 0 %}
+                                        <div class="form-group row">
+                                            <label for="{{item.name}}" class="col-sm-2 col-form-label">{{item.label}}</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="{{ item.name }}" name="{{item.name}}" value="{{item.value}}">
+                                            </div>
+                                        </div>
+                                    {% elif item.type == 1 %}
+                                        <div class="form-group">
+                                            <label for="{{item.name}}">{{item.label}}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="{{item.name}}" name="{{item.name}}" rows="3">{{item.value}}</textarea>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-group row">
+                                            <label for="{{item.name}}" class="col-sm-2 col-form-label">{{item.label}}</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" type="password" id="{{item.name }}" name="{{item.name}}" value="{{item.value}}">
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="form-group row">
+                                    <div class="col-sm-10"></div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if tip %}
+        <div class="modal" id="tipModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{tip_title}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: rgba(255, 0, 0, 0.7)">{{tip_content}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_script%}
+    <script type="text/javascript">
+        document.body.onload = function () {
+            let modal = $('#tipModal')
+            if(modal !== undefined){
+                modal.modal();
+            }
+        }
+    </script>
+{% endblock %}
