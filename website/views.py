@@ -122,7 +122,7 @@ class DeleteWebsiteView(View):
                 delete_website(website.path)
                 website.delete()
             else:
-                return JsonResponse({'error': '用户名不正确!'})
+                return JsonResponse({'tip': '用户名不正确!'})
         except KeyError:
             return HttpResponseBadRequest()
         except ObjectDoesNotExist:

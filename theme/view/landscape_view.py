@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from .base_view import ThemeBaseView
-from theme.model.models import LandscapeTheme
+from theme.model.landscape_model import LandscapeTheme
 from .register import register
 import yaml
 

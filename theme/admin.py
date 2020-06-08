@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .model.models import TemplateTheme
-from .model.models import LandscapeTheme
+from .model.landscape_model import LandscapeTheme
 
 
 # Register your models here.

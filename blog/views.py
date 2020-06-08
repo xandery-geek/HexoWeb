@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic import View
 from .models import Post, Category, Tag
 from website.models import Website
@@ -143,14 +143,14 @@ class PostDetailView(View):
         user = request.user
         website = Website.get_current_website(user.id)
         if not website:
-            return render(request, '', {})
+            return HttpResponseBadRequest()
 
         try:
             post = Post.objects.get(pk=pk, website=website)
             tags = post.tags.all()
             tags_name = [t.name for t in tags]
         except ObjectDoesNotExist:
-            return render(request, '', {})
+            return HttpResponseBadRequest()
 
         update_time = post.update_time.astimezone(Post.cur_timezone).strftime(Post.time_format)
         context = {
@@ -188,12 +188,16 @@ class CategoryTagView(View):
     def post(self, request, **kwargs):
         self.get_attribute(request, **kwargs)
         option = kwargs['option']
-        context = {}
-        if option in CategoryTagView.post_method:
-            handle = getattr(self, option)
-            context = handle(request)
 
-        return JsonResponse(context)
+        try:
+            if option in CategoryTagView.post_method:
+                handle = getattr(self, option)
+                context = handle(request)
+                return JsonResponse(context)
+            else:
+                return HttpResponseBadRequest()
+        except ValueError:
+            return HttpResponseBadRequest()
 
     def get_post_list(self):
         return []
@@ -209,10 +213,11 @@ class CategoryView(CategoryTagView):
 
     def create(self, request):
         if not self.website:
-            return {}
+            raise ValueError('no website!')
+
         name = request.POST.get('name')
         if name == "":
-            return {'error': '分类名不能为空'}
+            return {'tip': '分类名不能为空'}
 
         try:
             Category.objects.get(name=name, website=self.website)
@@ -221,14 +226,14 @@ class CategoryView(CategoryTagView):
             cate.save()
             return {}
         else:
-            return {'error': '分类已存在'}
+            return {'tip': '分类已存在'}
 
     def delete(self, request):
         try:
             cate = Category.objects.get(pk=self.pk, website=self.website)
             cate.delete()
         except ObjectDoesNotExist:
-            return {}
+            raise ValueError('no category whose primary key is {}'.format(self.pk))
         return {}
 
 
@@ -241,10 +246,10 @@ class TagView(CategoryTagView):
 
     def create(self, request):
         if not self.website:
-            return {}
+            raise ValueError('no website!')
         name = request.POST.get('name')
         if name == "":
-            return {'error': '标签名不能为空'}
+            return {'tip': '标签名不能为空'}
 
         try:
             Tag.objects.get(name=name, website=self.website)
@@ -253,35 +258,20 @@ class TagView(CategoryTagView):
             tag.save()
             return {}
         else:
-            return {'error': '标签已存在'}
+            return {'tip': '标签已存在'}
 
     def delete(self, request):
         try:
             tag = Tag.objects.get(pk=self.pk, website=self.website)
             tag.delete()
         except ObjectDoesNotExist:
-            return {}
+            raise ValueError('no tag whose primary key is {}'.format(self.pk))
         return {}
-
-
-class PostEditView(View):
-    def get(self, request, **kwargs):
-        pk = kwargs['pk']
-        try:
-            post = Post.objects.get(pk=pk, status=Post.STATUS_NORMAL).select_related()
-        except ObjectDoesNotExist:
-            return render(request, '', {})
-
-        context = {
-            'post': post,
-        }
-
-        return render(request, '', context)
 
 
 class PostOperateView(View):
     get_method = ['new', 'edit']
-    post_method = ['create', 'update', 'save', 'delete', 'release']
+    post_method = ['update', 'save', 'delete', 'release']
 
     def __init__(self):
         super().__init__()
@@ -303,12 +293,15 @@ class PostOperateView(View):
         except KeyError:
             option = 'new'
 
-        context = {}
-        if option in PostOperateView.get_method:
-            handler = getattr(self, option)
-            context = handler()
-
-        return render(request, 'editor.html', context)
+        try:
+            if option in PostOperateView.get_method:
+                handler = getattr(self, option)
+                context = handler()
+                return render(request, 'editor.html', context)
+            else:
+                return HttpResponseBadRequest()
+        except ValueError:
+            return HttpResponseBadRequest()
 
     def get_category_tag(self):
         cate_list = Category.get_by_website(self.website.id)
@@ -339,7 +332,7 @@ class PostOperateView(View):
             tag = post.tags.all()
 
         except ObjectDoesNotExist:
-            return {}
+            raise ValueError('no blog whose primary key is {}'.format(self.pk))
 
         context.update({
             'id': post.id,
@@ -356,12 +349,15 @@ class PostOperateView(View):
         self.get_attribute(request, **kwargs)
         option = kwargs['option']
 
-        context = {}
-        if option in PostOperateView.post_method:
-            handler = getattr(self, option)
-            context = handler(request)
-
-        return JsonResponse(context)
+        try:
+            if option in PostOperateView.post_method:
+                handler = getattr(self, option)
+                context = handler(request)
+                return JsonResponse(context)
+            else:
+                return HttpResponseBadRequest()
+        except ValueError:
+            return HttpResponseBadRequest()
 
     def create(self, title):
         """
@@ -369,7 +365,7 @@ class PostOperateView(View):
         :return:
         """
         if not self.website:
-            return {}
+            raise ValueError('no website！')
 
         if title is None or title == '':
             return None
@@ -383,7 +379,7 @@ class PostOperateView(View):
     def release(self, request):
         blog_post = self.get_post([Post.STATUS_NORMAL, Post.STATUS_DRAFT])
         if blog_post is None:
-            return {'error': ''}
+            return {'tip': '发布失败！'}
 
         self.save(request, blog_post)
         if blog_post.changed:
@@ -392,9 +388,9 @@ class PostOperateView(View):
             blog_post.save()
             delete_article(blog_post.path)
             if not create_article(blog_post.path, blog_post):
-                return {'error': ''}
+                return {'tip': '发布失败'}
         else:
-            return {'error': '文章未修改'}
+            return {'tip': '文章未修改'}
         return {}
 
     def update(self, request):
@@ -419,7 +415,8 @@ class PostOperateView(View):
         title = request.POST.get('title')
         if blog_post is None:
             if title is None or title == '':
-                return {'error': '标题不能为空'}
+                return {'tip': '文章标题不能为空！'}
+
             blog_post = self.create(request)
             context.update({'id': blog_post.id})
 
@@ -433,7 +430,7 @@ class PostOperateView(View):
 
         if title is not None:
             if title == '':
-                return {'error': '标题不能为空'}
+                return {'tip': '文章标题不能为空！'}
             blog_post.title = title
 
         if content is not None:
@@ -452,7 +449,7 @@ class PostOperateView(View):
                 tags = Tag.objects.filter(name__in=tag_list, website=self.website)
                 blog_post.update_tags(tags, website=self.website)
         except ObjectDoesNotExist:
-            return {'error': '分类或者标签不存在，请先创建！'}
+            return {'tip': '分类或者标签不存在，请先创建！'}
 
         if title or status or content or tag_list or category:
             blog_post.changed = True
@@ -464,7 +461,8 @@ class PostOperateView(View):
         blog_post = self.get_post([Post.STATUS_NORMAL, Post.STATUS_DRAFT])
 
         if blog_post is None:
-            return {}
+            raise ValueError('blog is not exist!')
+
         if blog_post.status == Post.STATUS_NORMAL:
             delete_article(blog_post.path)
 

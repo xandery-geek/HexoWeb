@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponseBadRequest
 from theme.model.models import TemplateTheme
 from .register import THEME_VIEW_CLASS
+
+# import theme model to register, can't remove these lines although they are not relied on in the file.
 from .landscape_view import LandscapeView
 
 

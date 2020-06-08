@@ -127,9 +127,9 @@ function delete_website(id, email) {
                 {
                     goto_link(data['url']);
                 }
-                else if(data['error'])
+                else if(data['tip'])
                 {
-                    alert(data['error']);
+                    alert(data['tip']);
                 }
             },
             error: function (data) {
@@ -141,25 +141,23 @@ function delete_website(id, email) {
     );
 }
 
+function check_form_filed(field_list) {
+
+    for(let field of field_list) {
+        if (field.value === "") {
+            alert('请填写' + field.previousElementSibling.innerHTML);
+            return false;
+        }
+    }
+    return true
+}
+
 function check_website_basic(form) {
-    if(form.inputTitle.value === ""){
-        alert('请填写'+form.inputTitle.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputSubtitle.value === ""){
-        alert('请填写'+form.inputSubtitle.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputDescription.value === ""){
-        alert('请填写'+form.inputDescription.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputKeyword.value === ""){
-        alert('请填写'+form.inputKeyword.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputPerPage.value === ""){
-        alert('请填写'+form.inputPerPage.previousElementSibling.innerHTML);
+
+    let field_list = [form.inputTitle, form.inputSubtitle, form.inputDescription, form.inputKeyword, form.inputPerPage]
+    let status = check_form_filed(field_list);
+
+    if(status === false){
         return false;
     }
 
@@ -180,28 +178,11 @@ function check_website_basic(form) {
 }
 
 function check_website_deploy(form) {
-    if(form.inputUrl.value === ""){
-        alert('请填写'+form.inputUrl.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputRepository.value === ""){
-        alert('请填写'+form.inputRepository.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputBranch.value === ""){
-        alert('请填写'+form.inputBranch.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputUsername.value === ""){
-        alert('请填写'+form.inputUsername.previousElementSibling.innerHTML);
-        return false;
-    }
-    if(form.inputPassword.value === ""){
-        alert('请填写'+form.inputPassword.previousElementSibling.innerHTML);
-        return false;
-    }
+    let field_list = [form.inputUrl, form.inputRepository, form.inputBranch, form.inputKeyword, form.inputUsername,
+        form.inputPassword]
+    let status = check_form_filed(field_list);
 
-    return true;
+    return status !== false;
 }
 
 function check_website_form(form) {
@@ -350,10 +331,16 @@ function get_post(target) {
         type: 'get',
         cache: false,
         success: function (data) {
-            update_post(data);
+            if(data['tip'])
+            {
+                alert(data['tip']);
+            }
+            else {
+                update_post(data);
+            }
         },
         error: function (data) {
-            alert('获取文章失败，' + data['error']);
+            alert('获取文章失败 ' + data['tip']);
         }
         }
     );
@@ -365,10 +352,16 @@ function get_post_list(url) {
             type: 'get',
             cache: false,
             success: function (data) {
-                update_post_list(data);
+                if(data['tip'])
+                {
+                    alert(data['tip']);
+                }
+                else {
+                    update_post_list(data);
+                }
             },
             error: function (data) {
-                alert('获取文章失败，' + data['error']);
+                alert('获取文章失败 ' + data['tip']);
             }
         }
     );
@@ -437,16 +430,17 @@ function delete_post(id) {
             cache: false,
             success: function (data) {
                 $('#deleteModal').modal('hide');
-                window.location.href = data['url'];
+
+                if (data['tip']){
+                    alert(data['tip']);
+                }
+                else {
+                    window.location.href = data['url'];
+                }
             },
             error: function (data) {
                 $('#deleteModal').modal('hide');
-
-                let tip = '删除文章失败';
-                if(data['error']){
-                     tip = tip + data['error'];
-                }
-                alert(tip);
+                alert('删除文章失败' + data['tip']);
             }
         }
     );
@@ -467,19 +461,16 @@ function update_all_post() {
             cache: false,
             success: function (data) {
                 $('#updateModal').modal('hide');
-                let tip = '更新文章成功';
-                if(data['error']){
-                    tip = tip + data['error'];
+                if(data['tip']){
+                    alert(data['tip']);
                 }
-                alert(tip);
+                else {
+                    alert('更新文章成功');
+                }
             },
             error: function (data) {
                 $('#updateModal').modal('hide');
-                let tip = '更新文章失败';
-                if(data['error']){
-                    tip = tip + data['error'];
-                }
-                alert(tip);
+                alert('更新文章失败' + data['tip']);
             }
         }
     );
@@ -601,12 +592,12 @@ class Editor {
         let url = '/blog/id/' + id + '/save/';
 
         function success(data) {
-            if (data['error'] !== undefined)
+            if (data['tip'])
             {
-                alert('保存失败，' + data['error']);
+                alert('保存失败，' + data['tip']);
                 return false;
             }
-            else if(data['id'] !== undefined)
+            else if(data['id'])
             {
                 window.location.href = '/edit/' + data['id'] +'/edit/';
                 return true;
@@ -618,11 +609,7 @@ class Editor {
         }
 
         function error(data) {
-            let tip = '保存失败';
-            if (data['error']) {
-                tip = tip + data['error'];
-            }
-            alert(tip);
+            alert('保存失败' + data['tip']);
         }
 
         this._save_post(url , success, error);
@@ -633,9 +620,9 @@ class Editor {
         let url = '/blog/id/' + id + '/release/';
 
         function success(data) {
-            if (data['error'] !== undefined)
+            if (data['tip'])
             {
-                alert('发布失败，' + data['error']);
+                alert('发布失败，' + data['tip']);
                 return false;
             }
             else{
@@ -645,11 +632,7 @@ class Editor {
         }
 
         function error(data) {
-            let tip = '发布失败';
-            if (data['error']) {
-                tip = tip + data['error'];
-            }
-            alert(tip);
+            alert('发布失败' + data['tip']);
         }
 
         this._save_post(url , success, error);
@@ -714,21 +697,17 @@ class Editor {
                 cache: false,
                 success: function (data) {
                     $('#categoryModal').modal('hide');
-                    if (data['error'] !== undefined)
+                    if (data['tip'])
                     {
-                        alert('添加分类失败,' + data['error']);
+                        alert('添加分类失败,' + data['tip']);
                         return;
                     }
+                    alert('分类已添加');
                     obj.add_category(name);
                 },
                 error: function (data) {
                     $('#categoryModal').modal('hide');
-
-                    let tip = '添加分类失败';
-                    if(data['error']){
-                        tip = tip + data['error'];
-                    }
-                    alert(tip);
+                    alert('添加分类失败 ' + data['tip']);
                 }
             }
         );
@@ -760,21 +739,18 @@ class Editor {
                 cache: false,
                 success: function (data) {
                     $('#tagModal').modal('hide');
-                    if (data['error'] !== undefined)
+                    if (data['tip'] !== undefined)
                     {
-                        alert('添加标签失败,' + data['error']);
+                        alert('添加标签失败,' + data['tip']);
                         return;
                     }
+                    alert('标签已添加');
                     obj.add_tag(name);
                 },
                 error: function (data) {
                     $('#tagModal').modal('hide');
 
-                    let tip = '添加标签失败';
-                    if(data['error']){
-                        tip = tip + data['error'];
-                    }
-                    alert(tip);
+                    alert('添加标签失败 ' + data['tip']);
                 }
             }
         );
