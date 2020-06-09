@@ -12,6 +12,7 @@ from django.forms import ModelForm
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
+from django.http import JsonResponse
 from django import forms
 from .models import User
 from PIL import Image
@@ -25,10 +26,7 @@ UserModel = get_user_model()
 
 class IndexView(View):
     def get(self, request):
-        if request.session.session_key:
-            return redirect(reverse('website'))
-        else:
-            return render(request, template_name='login.html')
+        return render(request, template_name='index.html')
 
 
 class UserCreateForm(ModelForm):
@@ -98,7 +96,10 @@ class UserBackend(ModelBackend):
 class UserSignIn(View):
 
     def get(self, request):
-        return render(request, 'login.html')
+        if request.session.session_key:
+            return redirect(reverse('website'))
+        else:
+            return render(request, template_name='login.html')
 
     def post(self, request):
         email = request.POST.get('email')
@@ -110,11 +111,11 @@ class UserSignIn(View):
             return redirect(reverse('website'))
 
         title = '登录失败'
-        content = "用户不存在或者密码错误"
+        error = "用户不存在或者密码错误"
         context = {
             'tip': True,
             'title': title,
-            'content': content,
+            'error': error,
         }
         return render(request, 'login.html', context)
 
@@ -162,9 +163,13 @@ class PasswordReset(View):
             # send verification code to user's email
             email = request.POST.get('email')
             verify = str(uuid.uuid4())[0:6]
-            user = User._default_manager.get_by_natural_key(email)
+            try:
+                user = User._default_manager.get_by_natural_key(email)
+            except ObjectDoesNotExist:
+                return JsonResponse({"tip": "用户不存在！"})
+
             if user is None:
-                return render(request, 'reset.html', {"content": "用户不存在！"})
+                return JsonResponse({"tip": "用户不存在！"})
 
             user.verify_code = verify
             user.verify_time = timezone.now()
@@ -175,7 +180,7 @@ class PasswordReset(View):
             reset_email_tmp['recipient_list'] = [email]
             send_email(reset_email_tmp)
 
-            return render(request, 'reset.html')
+            return JsonResponse({'tip': '验证码已发送'})
 
         else:
             # change user's password
@@ -184,21 +189,22 @@ class PasswordReset(View):
             re_password = request.POST.get('re_password')
             code = request.POST.get('verify_code')
 
+            error = None
             content = ""
             try:
                 user = User._default_manager.get_by_natural_key(email)
                 if user is None or user.is_active == False:
-                    content = '用户不存在！'
+                    error = '用户不存在！'
                     raise ValueError
 
                 if self.verify_code(code, user=user):
                     if password != re_password:
-                        content = '新密码不一致'
+                        error = '新密码不一致'
                         raise ValueError
 
                     pattern = '^[A-Za-z0-9]{8,20}$'
                     if re.match(pattern, re_password) is None:
-                        content = '密码格式错误（8-20位字母或者数字）'
+                        error = '密码格式错误（8-20位字母或者数字）'
                         raise ValueError
 
                     user.set_password(re_password)
@@ -211,15 +217,24 @@ class PasswordReset(View):
                     send_email(reset_done_tmp)
                 else:
                     title = '重置密码失败'
-                    content = '验证码错误！'
+                    error = '验证码错误！'
             except ValueError:
                 title = '重置密码失败'
 
             context = {
                 'tip': True,
                 'title': title,
-                'content': content
             }
+
+            if error:
+                context.update({
+                    'content': content
+                })
+            else:
+                context.update({
+                    'content': content
+                })
+
             return render(request, 'reset.html', context)
 
     @staticmethod

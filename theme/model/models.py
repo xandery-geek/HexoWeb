@@ -34,7 +34,7 @@ class TemplateTheme(models.Model):
 
 class BaseTheme(models.Model):
     template = models.ForeignKey(to=TemplateTheme, blank=False, null=True, on_delete=models.SET_NULL)
-    website = models.ForeignKey(to=Website, blank=False, null=True, on_delete=models.SET_NULL)
+    website = models.ForeignKey(to=Website, blank=False, null=True, on_delete=models.CASCADE)
     relative_path = models.CharField(max_length=128, blank=True, verbose_name='theme relative path')
 
     @classmethod

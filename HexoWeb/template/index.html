@@ -11,10 +11,10 @@
         <div class="row index-row">
             <div class="col-12">
                 <div class="index-main-block">
-                    <h1 class="index-title"> A Blog Website </h1>
-                    <p class="index-subtitle">面向个人和团队，提供与众不同的知识管理，打造轻松流畅的工作协同</p>
+                    <h1 class="index-title"> A web client for Hexo blog </h1>
+                    <p class="index-subtitle">丰富的主题支持，强大的Markdown编辑器，Hexo web帮助您快速建立自己的博客网站</p>
                     <div style="text-align: center">
-                        <img class="index-main-img" src="{%  static  'img/index-content.png'%}" alt="">
+                        <img class="index-main-img" src="{%  static  'img/index/index.png'%}" alt="">
                     </div>
                 </div>
             </div>
@@ -25,13 +25,15 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6 index-intro-col">
                             <div>
-                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                                <img class="index-intro-img" src="{%  static  'img/index/hexo.png'%}" alt="">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 index-intro-col">
-                            <h2 class="index-intro-title">关于Hexo Web</h2>
-                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、
-                                PlantUML 等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                            <h2 class="index-intro-title">Hexo Blog Framework</h2>
+                            <p class="index-intro-text">
+                                网站使用Hexo搭建，支持Markdown语法，提供丰富的主题。几分钟内就可以创建一个属于自己的博客网站。
+                                云端存储，随时随地通过网络访问，随意创作，随心发布。
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -42,14 +44,13 @@
                 <div class="index-intro-block">
                     <div class="row">
                         <div class="col-sm-12 col-md-6 index-intro-col">
-                            <h2 class="index-intro-title">Hexo 网站管理</h2>
+                            <h2 class="index-intro-title">可视化配置</h2>
                             <img class="index-intro-icon" src="{% static '/img/website-sel.png' %}" alt="">
-                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、PlantUML
-                                等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                            <p class="index-intro-text">提供可视化的网站配置和主题配置，远离Hexo令人头疼的运行环境和配置文件。</p>
                         </div>
                         <div class="col-sm-12 col-md-6 index-intro-col">
                             <div>
-                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                                <img class="index-intro-img" src="{%  static  'img/index/website.png'%}" alt="">
                             </div>
                         </div>
                     </div>
@@ -62,14 +63,13 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6 index-intro-col">
                             <div>
-                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                                <img class="index-intro-img" src="{%  static  'img/index/blog.png'%}" alt="">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 index-intro-col">
-                            <h2 class="index-intro-title">博客文章管理</h2>
+                            <h2 class="index-intro-title">结构化管理</h2>
                             <img class="index-intro-icon" src="{% static '/img/article-sel.png' %}" alt="">
-                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、PlantUML
-                                等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                            <p class="index-intro-text">结构化文章管理，支持分类、标签和草稿等。博客文章尽收眼底，一目了然。</p>
                         </div>
                     </div>
                 </div>
@@ -80,16 +80,36 @@
                 <div class="index-intro-block">
                     <div class="row">
                         <div class="col-sm-12 col-md-6 index-intro-col">
-                            <h2 class="index-intro-title">Markdown 编辑器</h2>
+                            <h2 class="index-intro-title">Editormd 编辑器</h2>
                             <img class="index-intro-icon" src="{% static '/img/editor-sel.png' %}" alt="">
-                            <p class="index-intro-text">编辑器自主研发，支持 Markdown、表格、脑图、代码块、LaTeX 公式、PlantUML
-                                等专业编辑能力，同时做到本地视频、Office 文件、PDF 在线阅读，让你专注于创作。</p>
+                            <p class="index-intro-text">
+                                使用开源 Editormd 编辑器，支持Markdown、图片、表格、代码块、LaTeX 公式等专业编辑能力。
+                                提供免费图床服务，本地图片一键上传。在线实时预览，让你专注于创作。
+                            </p>
                         </div>
                         <div class="col-sm-12 col-md-6 index-intro-col">
                             <div>
-                                <img class="index-intro-img" src="{%  static  'img/index-content.png'%}" alt="">
+                                <img class="index-intro-img" src="{%  static  'img/index/editor.png'%}" alt="">
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row index-row">
+        <div class="col-12">
+            <div class="index-intro-block">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 index-intro-col">
+                        <div>
+                            <img class="index-intro-img" src="{%  static  'img/index/theme.png'%}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 index-intro-col">
+                        <h2 class="index-intro-title">丰富的主题</h2>
+                        <img class="index-intro-icon" src="{% static '/img/theme.png' %}" alt="">
+                        <p class="index-intro-text">支持多款Hexo主题，轻松定制属于自己的博客网站。不同风格一键切换，摆脱平庸，成就不凡。</p>
                     </div>
                 </div>
             </div>
@@ -101,11 +121,10 @@
         <div class="container">
             <div class="small text-center index-footer-link">
                 <a href="{% url 'index'%}">关于Hexo Web</a>
-                <a href="{% url 'index'%}">Hexo Web服务</a>
-                <a href="{% url 'index'%}">项目Github</a>
+                <a href="https://github.com/yx1302317313/HexoWeb">项目Github</a>
                 <a href="{% url 'index'%}">致谢</a>
             </div>
-            <div class="small text-center text-muted">Copyright &copy; 2020 YuanXu</div>
+            <div class="small text-center text-muted">Copyright &copy; 2020 XuYuan</div>
         </div>
     </footer>
 

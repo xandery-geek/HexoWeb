@@ -62,21 +62,25 @@ body{
 .index-main-block{
     max-width: 100%;
     margin: 0 auto;
+    padding-bottom: 40px;
 }
 
 .index-title{
     text-align: center;
     padding-top: 64px;
     padding-bottom: 16px;
+    color: #262626;
 }
 
 .index-subtitle{
     text-align: center;
     font-size: 1.2rem;
+    margin-bottom: 50px;
+    color: #595959;
 }
 
 .index-main-img{
-    width: 830px;
+    width: 700px;
     max-width: 90%;
     height: auto;
 }
@@ -112,6 +116,8 @@ body{
 .index-intro-img{
     width: 411px;
     height: auto;
+    -moz-box-shadow: 5px 5px 20px rgba(14, 131, 205, 0.2); /* older Firefox */
+    box-shadow: 10px 10px 20px rgba(14, 131, 205, 0.2);
 }
 
 .index-intro-col{

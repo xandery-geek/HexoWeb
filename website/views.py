@@ -120,6 +120,7 @@ class DeleteWebsiteView(View):
             if email == request.user.email:
                 website = Website.get_by_owner(request.user.id).get(pk=pk)
                 delete_website(website.path)
+
                 website.delete()
             else:
                 return JsonResponse({'tip': '用户名不正确!'})

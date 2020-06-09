@@ -55,7 +55,7 @@ function login_check(form){
         return false;
     }
 
-    return true;
+    return password_check(form);
 }
 
 /*check the password reset form*/
@@ -111,10 +111,12 @@ function get_verify_code(form) {
         contentType: false,
         processData: false,
         success: function (data) {
-            alert("验证码已发送！");
+            if (data['tip']){
+                alert(data['tip']);
+            }
         },
         error: function (data) {
-            alert('验证码发送失败，' + data['error']);
+            alert('验证码发送失败 ' + data['tip']);
         }
     });
 

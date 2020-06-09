@@ -146,6 +146,7 @@ function check_form_filed(field_list) {
     for(let field of field_list) {
         if (field.value === "") {
             alert('请填写' + field.previousElementSibling.innerHTML);
+            field.focus();
             return false;
         }
     }
@@ -669,7 +670,7 @@ class Editor {
 
         let span2 = document.createElement('span');
         span2.className = 'editor-close-btn';
-        span2.setAttribute('onclick', 'remove_tag(this)');
+        span2.setAttribute('onclick', 'post_editor.remove_tag(this);');
         div.appendChild(span1);
         div.appendChild(span2);
 

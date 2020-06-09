@@ -41,9 +41,15 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body" style="color: rgba(255, 0, 0, 0.7);">
-                        {{ error }}
-                    </div>
+                    {% if error %}
+                        <div class="modal-body" style="color: rgba(255, 0, 0, 0.7);">
+                            {{ error }}
+                        </div>
+                    {% else %}
+                        <div class="modal-body">
+                            {{ content }}
+                        </div>
+                    {% endif %}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
