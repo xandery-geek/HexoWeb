@@ -6,7 +6,7 @@ class WebsiteForm(ModelForm):
     class Meta:
         model = Website
         fields = ['title', 'subtitle', 'author', 'per_page', 'url', 'desc', 'keyword',
-                  'repository', 'branch', 'git_username', 'git_password']
+                  'repository', 'branch', 'git_username', 'git_email', 'git_password']
 
     def save(self, commit=True):
         website = super().save(commit)

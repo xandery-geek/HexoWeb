@@ -1,3 +1,4 @@
+from HexoWeb.settings import DEBUG
 import yaml
 import os
 
@@ -6,6 +7,12 @@ WEBSITE_BASE_PATH = os.path.join(BASE_DIR, '../user_website')
 WEBSITE_TEMPLATE_PATH = os.path.join(BASE_DIR, 'template/website/blog')
 THEME_TEMPLATE_PATH = os.path.join(BASE_DIR, 'template/theme')
 SCRIPT_PATH = os.path.join(BASE_DIR, 'website/script')
+
+if DEBUG:
+    suffix = ''
+else:
+    # forbid linux shell printing out to stdout when not debug
+    suffix = ' >/dev/null 2>&1'
 
 
 def get_website_dir(user_id, website_id):
@@ -47,6 +54,8 @@ def update_website_config(path, website):
         y['index_generator']['per_page'] = website.per_page
         y['deploy']['repo'] = website.repository
         y['deploy']['branch'] = website.branch
+        y['deploy']['name'] = website.git_username
+        y['deploy']['email'] = website.git_email
         y['theme'] = website.cur_theme
 
         with open(config_file, 'w') as f:
@@ -56,9 +65,11 @@ def update_website_config(path, website):
     return True
 
 
-def deploy_website(path):
-    script_file = os.path.join(SCRIPT_PATH, 'deploy.sh')
-    command = "bash {} {}".format(script_file, path)
+def deploy_website(website):
+    expect_file = os.path.join(SCRIPT_PATH, 'deploy_expect.exp')
+    bash_file = os.path.join(SCRIPT_PATH, 'deploy.sh')
+    command = "expect {} {} {} {} {}".format(expect_file, bash_file, website.path, website.git_username, website.git_password)
+    command += suffix
     return os.system(command) == 0
 
 

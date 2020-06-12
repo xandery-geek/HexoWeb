@@ -32,6 +32,21 @@ function prevent_form_enter(event) {
     return keycode !== 13;
 }
 
+function create_alert(html_class, strong, content) {
+
+    let alert_div = document.createElement('div');
+    alert_div.className = "alert alert-dismissible fade show" + ' ' + html_class;
+    alert_div.setAttribute('role', 'alert');
+
+    let alert_str1 = "<strong>" + strong + "</strong>";
+    let alert_str2 = content;
+    let alert_str3 =  "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+        "<span aria-hidden=\"true\">&times;</span>\n" +
+        "</button>\n";
+    alert_div.innerHTML = alert_str1 + alert_str2 + alert_str3;
+
+    return alert_div;
+}
 function ajax_post(url, form_data, success, error) {
     $.ajax({
             url: url,
@@ -114,31 +129,45 @@ function delete_website(id, email) {
     form_data.append('id', id);
     form_data.append('email', email);
 
-    $.ajax({
-            url: url,
-            type: 'post',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            cache: false,
-            success: function (data) {
-                $('#deleteModal').modal('hide');
-                if(data['url'])
-                {
-                    goto_link(data['url']);
-                }
-                else if(data['tip'])
-                {
-                    alert(data['tip']);
-                }
-            },
-            error: function (data) {
-                $('#deleteModal').modal('hide');
-                let tip = '删除网站失败';
-                alert(tip);
-            }
+    function success(data) {
+        $('#deleteModal').modal('hide');
+        if(data['url'])
+        {
+            goto_link(data['url']);
         }
-    );
+        else if(data['tip'])
+        {
+            alert(data['tip']);
+        }
+    }
+    function error(data) {
+        $('#deleteModal').modal('hide');
+        let tip = '删除网站失败';
+        alert(tip);
+    }
+    ajax_post(url, form_data,success, error);
+}
+
+function deploy_website(id) {
+    let url = '/website/' + id + '/update/update/';
+
+    let csrf_token = get_cookie('csrftoken');
+    let form_data = new FormData();
+    form_data.append('csrfmiddlewaretoken', csrf_token);
+
+    function success(data) {
+        $('#updateModal').modal('hide');
+        if(data['tip']){
+            alert(data['tip']);
+        }
+    }
+    function error(data) {
+        $('#updateModal').modal('hide');
+        if(data['tip']){
+            alert(data['tip']);
+        }
+    }
+    ajax_post(url, form_data, success, error);
 }
 
 function check_form_filed(field_list) {

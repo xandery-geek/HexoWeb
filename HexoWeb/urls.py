@@ -39,7 +39,7 @@ urlpatterns = [
     path('edit/', PostOperateView.as_view(), name='editor'),
     re_path(r'^user/update/(?P<option>[\w]+)/$', ProfileView.as_view(), name='user_update'),
     re_path(r'^website/(?P<pk>\d+)/$', WebsiteDetailView.as_view(), name='website_detail'),
-    re_path(r'^website/(?P<pk>\d+)/update/(?P<option>[\w]+)$', UpdateWebsiteView.as_view(), name='website_update'),
+    re_path(r'^website/(?P<pk>\d+)/update/(?P<option>[\w]+)/$', UpdateWebsiteView.as_view(), name='website_update'),
     re_path(r'^website/themes/$', ThemeView.as_view(), name='website_theme'),
     re_path(r'^website/themes/(?P<pk>\d+)/(?P<theme>[\w]+)/(?P<option>[\w]+)/$', ThemeOperateView.as_view(),
             name='theme_operate'),

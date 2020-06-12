@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+
+set script_path [lindex $argv 0]
+set hexo_path [lindex $argv 1]
+set username [lindex $argv 2]
+set password [lindex $argv 3]
+
+set timeout -1
+spawn bash $script_path $hexo_path
+
+expect "Username*"
+send -- "$username\r"
+
+expect "Password*"
+send -- "$password\r"
+
+expect eof
+catch wait result
+exit [lindex $result 3]

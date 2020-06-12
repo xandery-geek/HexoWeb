@@ -40,6 +40,7 @@ class Website(models.Model):
     repository = models.CharField(max_length=64, blank=False, verbose_name='git repository')
     branch = models.CharField(max_length=64, default='master', blank=False, verbose_name="git branch")
     git_username = models.CharField(max_length=64, blank=False, verbose_name='git username')
+    git_email = models.EmailField(max_length=64, blank=False, default='eamil@gmail.com', verbose_name='git email')
     git_password = models.CharField(max_length=64, blank=False, verbose_name='git password')
 
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='website owner')

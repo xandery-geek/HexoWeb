@@ -7,6 +7,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic import View
 from .models import Post, Category, Tag
 from website.models import Website
+from website.website_config import deploy_website
 import re
 import yaml
 import os
@@ -404,6 +405,7 @@ class PostOperateView(View):
             post.save()
             delete_article(post.path)
             create_article(post.path, post)
+        deploy_website(self.website)
 
         return {}
 

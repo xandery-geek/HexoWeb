@@ -108,25 +108,29 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputRepository">Git 仓库</label>
+                                    <div class="form-group col-md-9">
+                                        <label for="inputRepository">Github仓库</label>
                                         <input type="text" class="form-control" id="inputRepository" name="repository"
                                                placeholder=" https://github.com/username.github.io.git" value="{{ repository }}">
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputBranch">Git 分支</label>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputBranch">Github分支</label>
                                         <input type="text" class="form-control" id="inputBranch" name="branch"
                                                placeholder="master" value="{{ branch }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputUsername">Git服务器用户名</label>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputUsername">Github用户名</label>
                                         <input type="text" class="form-control" id="inputUsername" name="git_username"
                                                placeholder="username" value="{{ git_username }}">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputPassword">Git服务器密码</label>
+                                        <label for="inputEmail">Github邮箱</label>
+                                        <input type="email" class="form-control" name="git_email" id="inputEmail" value="{{ git_email }}">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputPassword">Github密码</label>
                                         <input type="password" class="form-control" name="git_password" id="inputPassword" value="{{ git_password }}">
                                     </div>
                                 </div>

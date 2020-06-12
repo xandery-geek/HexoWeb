@@ -1,0 +1,10 @@
+#!/usr/bin/expect -f
+
+spawn ./question.sh
+
+expect "prompt*"
+send -- "yes\r"
+
+expect eof
+catch wait result
+exit [lindex $result 3]

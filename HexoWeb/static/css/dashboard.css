@@ -173,8 +173,7 @@ body{
 .blog-article-bar{
     position: relative;
     height: 100%;
-    min-width: 310px;
-    max-width: 320px;
+    min-width: 300px;
     background: rgb(255, 255, 255);
     border-right: 1px solid rgb(220, 220, 220);
     overflow-x: hidden;
@@ -183,7 +182,7 @@ body{
 
 .blog-article-item{
     display: block;
-    width: 270px;
+    width: auto;
     height: 80px;
     padding: 10px 10px 0 10px;
     background: rgb(255, 255, 255);
@@ -339,8 +338,12 @@ body{
     border: 1px solid var(--main-border-color);
     margin: 14px 10px;
     text-align: center;
+    border-radius: 5px;
 }
 
+.website-btn-medium{
+    width: 80px;
+}
 .website-btn:hover{
     outline: none;
     background-color: transparent;
@@ -460,9 +463,9 @@ body{
 }
 
 .website-card{
+    position: relative;
     display: inline-flex;
     width: 100%;
-    height: 150px;
     padding: 20px;
     border-radius: 5px;
     background-color: white;
@@ -471,15 +474,23 @@ body{
     box-shadow: 0 1px 3px 0 rgba(14, 131, 205, 0.2);
 }
 
+.website-card-selected{
+    position: absolute;
+    width: 30px;
+    top: 0;
+    right: 0;
+}
+
 .website-card-inner-block{
     width: 33%;
 }
 
 .website-card-inner-block img{
-    height: 100%;
+    width: 90%;
+    /*height: 300px;*/
 }
 
-.website-photo-card{
+.website-photo{
     height: 300px;
 }
 
@@ -489,14 +500,23 @@ body{
     width: 100%;
 }
 .website-card-item .message-label{
+    display: inline-block;
+    width: 120px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 24px;
     margin-right: 10px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .website-card-item .message-content{
-    font-size: 14px;
+    display: inline-block;
+    width: calc(100% - 200px);
+    font-size: 16px;
     font-weight: 500;
+    line-height: 24px;
     margin-right: 10px;
     overflow-x: hidden;
     white-space: nowrap;
@@ -504,6 +524,11 @@ body{
 }
 
 .website-card-item .message-link{
+    color: #00c1de;
+    text-decoration: none;
+}
+
+.website-card-item .message-operation{
     font-size: 14px;
     margin-left: 20px;
     margin-right: 20px;

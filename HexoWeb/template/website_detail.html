@@ -44,15 +44,17 @@
                 <div class="website-title-bar" >
                     <h4 class="website-title">YuanXu's Blog</h4>
                     <div class="btn-group website-btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="website-btn website-btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button id="btnGroupDrop1" type="button" class="website-btn website-btn-dark  website-btn-medium dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             导出
                         </button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                             <a class="dropdown-item" href="{% url 'website_export' website.id 'markdown' %}">导出Markdown</a>
                             <a class="dropdown-item" href="{% url 'website_export' website.id 'hexo' %}">导出Hexo</a>
                         </div>
-                        <button class="website-btn website-btn-dark" data-id="{{ website.id }}"
-                                data-toggle="modal" data-target="#deleteModal">删除网站</button>
+                        <button class="website-btn website-btn-dark website-btn-medium" data-id="{{ website.id }}"
+                                data-toggle="modal" data-target="#updateModal">更新</button>
+                        <button class="website-btn website-btn-dark website-btn-medium" data-id="{{ website.id }}"
+                                data-toggle="modal" data-target="#deleteModal">删除</button>
                     </div>
                 </div>
                 <div class="website-main-block">
@@ -88,10 +90,10 @@
                                         <span class="message-content">{{ website.per_page }}</span>
                                     </div>
                                 </div>
-                                <div class="vertical-bar" style="height: 90%"></div>
+                                <div class="vertical-bar" style="height: auto"></div>
                                 <div class="website-card-inner-block" style="width: 10%">
                                     <div class="website-card-item">
-                                        <a class="message-link" href="{% url 'website_update' website.id 'basic' %}">修改</a>
+                                        <a class="message-operation" href="{% url 'website_update' website.id 'basic' %}">修改</a>
                                     </div>
                                 </div>
                             </div>
@@ -102,11 +104,11 @@
                                 <div class="website-card-inner-block" style="width: 45%">
                                     <div class="website-card-item">
                                         <span class="message-label">URL:</span>
-                                        <span class="message-content">{{ website.url }}</span>
+                                        <a class="message-content message-link" href="{{ website.url }}">{{ website.url }}</a>
                                     </div>
                                     <div class="website-card-item">
                                         <span class="message-label">Git repository:</span>
-                                        <span class="message-content">{{ website.repository }}</span>
+                                        <a class="message-content message-link" href="{{ website.repository }}">{{ website.repository }}</a>
                                     </div>
                                     <div class="website-card-item">
                                         <span class="message-label">Git branch:</span>
@@ -119,28 +121,33 @@
                                         <span class="message-content">{{ website.git_username }}</span>
                                     </div>
                                     <div class="website-card-item">
+                                        <span class="message-label">Git email:</span>
+                                        <span class="message-content">{{ website.git_email }}</span>
+                                    </div>
+                                    <div class="website-card-item">
                                         <span class="message-label">Git password:</span>
                                         <span class="message-content">******</span>
                                     </div>
                                 </div>
-                                <div class="vertical-bar" style="height: 90%"></div>
+                                <div class="vertical-bar" style="height: auto"></div>
                                 <div class="website-card-inner-block" style="width: 10%">
                                     <div class="website-card-item">
-                                        <a class="message-link" href="{% url 'website_update' website.id 'deploy' %}">修改</a>
+                                        <a class="message-operation" href="{% url 'website_update' website.id 'deploy' %}">修改</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="website-item">
                             <h6 class="website-item-title">主题配置</h6>
-                            <div class="website-card website-photo-card">
+                            <div class="website-card">
+                                <img class="website-card-selected" src="{% static 'img/select.png' %}" alt="">
                                 <div class="website-card-inner-block" style="width: 45%">
                                     <img src="{{ cur_theme.template.preview.url }}" alt="">
                                 </div>
                                 <div class="website-card-inner-block" style="width: 45%">
                                     <div class="website-card-item">
                                         <span class="message-label">Theme:</span>
-                                        <span class="theme-title">{{ cur_theme.template.name }}</span>
+                                        <span class="message-content">{{ cur_theme.template.name }}</span>
                                     </div>
                                     <div class="website-card-item">
                                         <span class="message-label">Description:</span>
@@ -148,30 +155,28 @@
                                     </div>
                                     <div class="website-card-item">
                                         <span class="message-label">Tags:</span>
-                                        <span class="message-content">
-                                                <span class="theme-tag">{{ cur_theme.template.tags }}</span>
-                                            </span>
+                                        <span class="message-content">{{ cur_theme.template.tags }}</span>
                                     </div>
                                 </div>
-                                <div class="vertical-bar" style="height: 90%"></div>
+                                <div class="vertical-bar" style="height: auto"></div>
                                 <div class="website-card-inner-block" style="width: 10%">
                                     <div class="website-card-item">
-                                        <a class="message-link" href="{% url 'theme_operate' cur_theme.id cur_theme.template.name 'update' %}">修改</a>
+                                        <a class="message-operation" href="{% url 'theme_operate' cur_theme.id cur_theme.template.name 'update' %}">修改</a>
                                     </div>
                                     <div class="website-card-item">
-                                        <a class="message-link" href="{% url 'website_theme' %}">更换</a>
+                                        <a class="message-operation" href="{% url 'website_theme' %}">更换</a>
                                     </div>
                                 </div>
                             </div>
                             {% for t in themes %}
-                                <div class="website-card website-photo-card">
+                                <div class="website-card">
                                     <div class="website-card-inner-block" style="width: 45%">
-                                        <img src="{% static 'img/theme/landscape.jpg' %}" alt="">
+                                        <img src="{{ t.template.preview.url }}" alt="">
                                     </div>
                                     <div class="website-card-inner-block" style="width: 45%">
                                         <div class="website-card-item">
                                             <span class="message-label">Theme:</span>
-                                            <span class="theme-title">{{ t.template.name }}</span>
+                                            <span class="message-content">{{ t.template.name }}</span>
                                         </div>
                                         <div class="website-card-item">
                                             <span class="message-label">Description:</span>
@@ -179,22 +184,20 @@
                                         </div>
                                         <div class="website-card-item">
                                             <span class="message-label">Tags:</span>
-                                            <span class="message-content">
-                                                <span class="theme-tag">{{ t.template.tags }}</span>
-                                            </span>
+                                            <span class="message-content">{{ t.template.tags }}</span>
                                         </div>
                                     </div>
-                                    <div class="vertical-bar" style="height: 90%"></div>
+                                    <div class="vertical-bar" style="height: auto"></div>
                                     <div class="website-card-inner-block" style="width: 10%">
                                         <div class="website-card-item">
-                                            <a class="message-link" href="{% url 'theme_operate' t.id t.template.name 'update' %}">修改</a>
+                                            <a class="message-operation" href="{% url 'theme_operate' t.id t.template.name 'update' %}">修改</a>
                                         </div>
                                         <div class="website-card-item">
-                                            <a class="message-link" href="javascript:void(0);" onclick="delete_theme(this);"
+                                            <a class="message-operation" href="javascript:void(0);" onclick="delete_theme(this);"
                                                data-name="{{ t.template.name }}" data-id="{{ t.id }}">删除</a>
                                         </div>
                                         <div class="website-card-item">
-                                            <a class="message-link" href="{% url 'website_theme' %}">使用</a>
+                                            <a class="message-operation" href="{% url 'website_theme' %}">使用</a>
                                         </div>
                                     </div>
                                 </div>
@@ -216,16 +219,36 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p style="color: red">确定删除该网站？一旦删除，该网站下所有文章都被删除！</p>
+                    <p style="color: red">确定删除该网站？一旦删除，该网站下所有文章,主题等都将被删除！</p>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="inputEmail">输入用户名（邮箱）确认删除</label>
+                            <label for="inputEmail">输入用户名（邮箱）以确认删除</label>
                             <input type="email" class="form-control" id="inputEmail" name="email" placeholder="email">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" id="deleteModalOk">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">更新网站</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>确定更新网站？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="updateModalOk">确定</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -242,6 +265,20 @@
             $('#deleteModalOk').on('click', function () {
                 let email = $('#inputEmail').val();
                 delete_website(id, email);
+                $(this).off('click');
+            });
+        });
+
+        $('#updateModal').on('show.bs.modal', function (event) {
+            let target = $(event.relatedTarget); // Button that triggered the modal
+            let id = target.data('id'); // Extract info from data-* attributes
+            let modal = $(this);
+            modal.find('.modal-body p').text("确定更新网站？");
+
+            $('#updateModalOk').on('click', function () {
+                deploy_website(id);
+                modal.find('.modal-body p').text("正在更新，请稍等...");
+                $(this).off('click');
             });
         });
     </script>

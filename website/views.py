@@ -155,12 +155,15 @@ class UpdateWebsiteView(View):
 
         option = kwargs['option']
 
-        context = {}
         if option in UpdateWebsiteView.get_method:
             handle = getattr(self, 'get_' + option)
             context = handle()
+            return render(request, 'website_update.html', context)
+        else:
+            return HttpResponseBadRequest()
 
-        return render(request, 'website_update.html', context)
+    def deploy_website(self):
+        return self.update_config()
 
     def get_basic(self):
         context = {
@@ -186,6 +189,7 @@ class UpdateWebsiteView(View):
             'repository': self.website.repository,
             'branch': self.website.branch,
             'git_username': self.website.git_username,
+            'git_email': self.website.git_email,
             'git_password': '******',
         }
 
@@ -199,15 +203,20 @@ class UpdateWebsiteView(View):
 
         option = kwargs['option']
 
-        context = {}
-        status = False
         if option in UpdateWebsiteView.get_method:
             handle = getattr(self, 'post_' + option)
             status, context = handle(request)
-        if status:
-            return redirect('website_detail', str(self.website.id))
+            if status:
+                return redirect('website_detail', str(self.website.id))
+            else:
+                return render(request, 'website_update.html', context)
+        elif option == 'update':
+            if self.deploy_website():
+                return JsonResponse({'tip': "网站已更新，但是具体网站内容的更新可能有延迟！"})
+            else:
+                return JsonResponse({'tip': "网站更新失败，请检查部署配置是否正确！"})
         else:
-            return render(request, 'website_update.html', context)
+            return HttpResponseBadRequest()
 
     def post_basic(self, request):
         website = self.website
@@ -231,7 +240,6 @@ class UpdateWebsiteView(View):
             website.author = author
             website.per_page = per_page
             website.save()
-            self.update_config()
         except:
             return False, {'tip': '表单填写不正确'}
 
@@ -245,15 +253,18 @@ class UpdateWebsiteView(View):
         branch = request.POST.get('branch')
         git_username = request.POST.get('git_username')
         git_password = request.POST.get('git_password')
+        git_email = request.POST.get('git_email')
 
         try:
             website.url = url
             website.repository = repository
             website.branch = branch
             website.git_username = git_username
-            website.git_password = git_password
+            website.git_email = git_email
+
+            if git_password != "******":
+                website.git_password = git_password
             website.save()
-            self.update_config()
         except:
             return False, {'tip': '表单填写不正确'}
 
@@ -261,7 +272,7 @@ class UpdateWebsiteView(View):
 
     def update_config(self):
         update_website_config(self.website.path, self.website)
-        deploy_website(self.website.path)
+        return deploy_website(self.website)
 
 
 class ExportWebsiteView(View):

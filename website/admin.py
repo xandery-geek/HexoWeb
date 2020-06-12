@@ -17,7 +17,7 @@ class WebsiteAdmin(admin.ModelAdmin):
         }),
         ('Website Information for Deploy', {
             'description': 'config the information for deploy website',
-            'fields': ('url', 'repository', 'branch', 'git_username', 'git_password')
+            'fields': ('url', 'repository', 'branch', 'git_username', 'git_email', 'git_password')
         }),
         ('Website owner', {
             'description': 'select the owner for website',
