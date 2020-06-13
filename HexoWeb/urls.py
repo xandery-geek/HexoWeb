@@ -49,6 +49,7 @@ urlpatterns = [
             name='post_detail'),
     re_path(r'^blog/id/(?P<pk>[\d]+)/$', PostDetailView.as_view(), name='post_detail'),
     re_path(r'^edit/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', PostOperateView.as_view(), name='edit_operate'),
+    re_path(r'^edit/upload/image/$', UploadImage.as_view(), name='edit_upload'),
     re_path(r'^blog/id/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', PostOperateView.as_view(), name='post_operate'),
     re_path(r'^blog/category/(?P<pk>[\d]+)/$', CategoryView.as_view(), name='category'),
     re_path(r'^blog/category/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', CategoryView.as_view(), name='category_operate'),

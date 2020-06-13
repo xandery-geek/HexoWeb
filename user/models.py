@@ -97,3 +97,7 @@ class User(AbstractBaseUser):
     @property
     def photo_path(self):
         return os.path.join(PHOTO_PATH, self.photo_relative_path)
+
+    @property
+    def photo_re_path(self):
+        return os.path.join('media/photo', self.photo_relative_path)

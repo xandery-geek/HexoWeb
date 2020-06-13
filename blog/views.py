@@ -8,6 +8,8 @@ from django.views.generic import View
 from .models import Post, Category, Tag
 from website.models import Website
 from website.website_config import deploy_website
+from PIL import Image
+import uuid
 import re
 import yaml
 import os
@@ -174,12 +176,14 @@ class CategoryTagView(View):
         user = request.user
         self.website = Website.get_current_website(user.id)
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, **kwargs):
         self.get_attribute(request, **kwargs)
         posts_list = self.get_post_list()
         data = pack_post_list(posts_list)
         return JsonResponse(data)
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def post(self, request, **kwargs):
         self.get_attribute(request, **kwargs)
         option = kwargs['option']
@@ -281,6 +285,7 @@ class PostOperateView(View):
         user = request.user
         self.website = Website.get_current_website(user.id)
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, **kwargs):
         self.get_attribute(request, **kwargs)
         try:
@@ -340,6 +345,7 @@ class PostOperateView(View):
 
         return context
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def post(self, request, **kwargs):
         self.get_attribute(request, **kwargs)
         option = kwargs['option']
@@ -481,3 +487,41 @@ class PostOperateView(View):
             return Post.objects.get(pk=self.pk, website=self.website, status__in=status)
         except ObjectDoesNotExist:
             return None
+
+
+class UploadImage(View):
+
+    @method_decorator(login_required(login_url='/account/login/'))
+    def post(self, request):
+        success = 0
+        message = 'error'
+        url = ''
+
+        user = request.user
+        image = request.FILES.get('editormd-image-file')
+
+        if image:
+            try:
+                img = Image.open(image)
+                filename = str(uuid.uuid4())[:8] + image.name
+                if not os.path.exists(user.photo_path):
+                    os.mkdir(user.photo_path)
+                file_path = os.path.join(user.photo_re_path, filename)
+                img.save(file_path)
+                success = 1
+                url = request.build_absolute_uri()
+                url = url.split('//')[1]
+                url = url.split('/')[0]
+                url = os.path.join(url, file_path)
+                url = 'http://' + url
+            except:
+                message = '未知错误'
+        else:
+            message = '请选择本地图片'
+
+        context = {
+            'success': success,
+            'message': message,
+            'url': url,
+        }
+        return JsonResponse(context)

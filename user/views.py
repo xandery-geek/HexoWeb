@@ -12,7 +12,7 @@ from django.forms import ModelForm
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse
 from django import forms
 from .models import User
 from PIL import Image

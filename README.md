@@ -2,11 +2,12 @@
 
 ## task list
 
+- [ ] search according categories and tags instead of search global
 - [ ] install hexo plugins automatically
 - [ ] save post automatically
-- [ ] photo server
+- [x] photo server
 - [ ] import from hexo directory
 - [ ] active user via email 
 - [ ] multi websites management
-- [ ] destroy user account
+- [x] destroy user account
  
