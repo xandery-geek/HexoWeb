@@ -21,6 +21,7 @@ from django.conf import settings
 from user.views import *
 from blog.views import *
 from website.views import *
+from image.views import *
 from theme.view.views import ThemeView, ThemeOperateView
 
 
@@ -42,17 +43,17 @@ urlpatterns = [
     re_path(r'^website/(?P<pk>\d+)/$', WebsiteDetailView.as_view(), name='website_detail'),
     re_path(r'^website/(?P<pk>\d+)/update/(?P<option>[\w]+)/$', UpdateWebsiteView.as_view(), name='website_update'),
     re_path(r'^website/themes/$', ThemeView.as_view(), name='website_theme'),
-    re_path(r'^website/themes/(?P<pk>\d+)/(?P<theme>[\w]+)/(?P<option>[\w]+)/$', ThemeOperateView.as_view(),
-            name='theme_operate'),
+    re_path(r'^website/themes/(?P<pk>\d+)/(?P<theme>[\w]+)/(?P<option>[\w]+)/$', ThemeOperateView.as_view(), name='theme_operate'),
     re_path(r'^website/(?P<pk>\d+)/export/(?P<option>[\w]+)$', ExportWebsiteView.as_view(), name='website_export'),
-    re_path(r'^blog/(?P<option>[\w]+)/(?P<keyword>[\u4E00-\u9FA5A-Za-z0-9]*)$', PostView.as_view(),
-            name='post_detail'),
+    re_path(r'^blog/(?P<option>[\w]+)/(?P<keyword>[\u4E00-\u9FA5A-Za-z0-9]*)$', PostView.as_view(), name='post_detail'),
     re_path(r'^blog/id/(?P<pk>[\d]+)/$', PostDetailView.as_view(), name='post_detail'),
-    re_path(r'^edit/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', PostOperateView.as_view(), name='edit_operate'),
-    re_path(r'^edit/upload/image/$', UploadImage.as_view(), name='edit_upload'),
     re_path(r'^blog/id/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', PostOperateView.as_view(), name='post_operate'),
     re_path(r'^blog/category/(?P<pk>[\d]+)/$', CategoryView.as_view(), name='category'),
     re_path(r'^blog/category/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', CategoryView.as_view(), name='category_operate'),
     re_path(r'^blog/tag/(?P<pk>[\d]+)/$', TagView.as_view(), name='tag'),
     re_path(r'^blog/tag/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', TagView.as_view(), name='tag_operate'),
+    re_path(r'^edit/(?P<pk>[\d]+)/(?P<option>[\w]+)/$', PostOperateView.as_view(), name='edit_operate'),
+    re_path(r'^image/$', ImageView.as_view(), name='image'),
+    re_path(r'^image/create/$', CreateImage.as_view(), name='image_create'),
+    re_path(r'^image/delete/(?P<pk>[\d]+)/$', DeleteImage.as_view(), name='image_delete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

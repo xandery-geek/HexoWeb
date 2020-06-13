@@ -48,21 +48,54 @@ function create_alert(html_class, strong, content) {
     return alert_div;
 }
 
+function create_tip(parent, content) {
+    let div = document.createElement('div');
+    div.className = "wait-tip";
+    div.id = "tip";
+    div.innerHTML = "<span>" + content + "</span>";
+    parent.appendChild(div);
+}
+
 function create_wait_tip(parent, content) {
-    let wait_div = document.createElement('div');
-    wait_div.className = "wait-tip";
-    wait_div.id = "wait-tip";
+    let div = document.createElement('div');
+    div.className = "wait-tip";
+    div.id = "wait-tip";
 
     let wait_img = "<i class=\"fas fa-spinner fa-pulse wait-img\"></i>";
     let wait_content = "<span>" + content + "</span>";
-    wait_div.innerHTML = wait_img + wait_content;
+    div.innerHTML = wait_img + wait_content;
 
-    parent.prepend(wait_div);
+    parent.appendChild(div);
+}
+
+function delete_tip(parent) {
+    let div = document.getElementById('tip');
+    parent.removeChild(div);
 }
 
 function delete_wait_tip(parent) {
-    let wait_div = document.getElementById('wait-tip');
-    parent.removeChild(wait_div);
+    let div = document.getElementById('wait-tip');
+    parent.removeChild(div);
+}
+
+function copy_to_clipboard(target) {
+    let content = target.getAttribute('data-content');
+
+    let input = document.createElement('input');
+    document.body.appendChild(input);
+    input.setAttribute('value', content);
+    input.select();
+    if (document.execCommand('copy')) {
+        document.execCommand('copy');
+        create_tip(document.body, '复制成功');
+
+        function del() {
+            delete_tip(document.body);
+        }
+        setTimeout(del, 2000);
+    }
+
+    document.body.removeChild(input);
 }
 
 function ajax_post(url, form_data, success, error) {
