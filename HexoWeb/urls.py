@@ -32,6 +32,7 @@ urlpatterns = [
     path('account/logout/', UserSignOut.as_view(), name='logout'),
     path('account/reset/', PasswordReset.as_view(), name='reset'),
     path('user/information/', ProfileView.as_view(), name='user'),
+    path('user/delete/', UserDeleteView.as_view(), name='user_delete'),
     path('website/', WebsiteView.as_view(), name='website'),
     path('website/new/', CreateWebsiteView.as_view(), name='website_new'),
     path('website/delete/', DeleteWebsiteView.as_view(), name='website_delete'),

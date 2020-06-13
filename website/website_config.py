@@ -65,9 +65,16 @@ def deploy_website(website):
     return os.system(command) == 0
 
 
-def install_plugins():
-    # install plugins in packages.json file
+def update_website_plugin(path, plugins):
+    config_file = os.path.join(path, 'package.json')
     pass
+
+
+def install_plugins(path):
+    # install plugins in packages.json file
+    bash_file = os.path.join(SCRIPT_PATH, 'install.sh')
+    command = "bash {} {}".format(bash_file, path)
+    os.system('')
 
 
 def change_theme(path, theme):

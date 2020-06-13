@@ -47,6 +47,24 @@ function create_alert(html_class, strong, content) {
 
     return alert_div;
 }
+
+function create_wait_tip(parent, content) {
+    let wait_div = document.createElement('div');
+    wait_div.className = "wait-tip";
+    wait_div.id = "wait-tip";
+
+    let wait_img = "<i class=\"fas fa-spinner fa-pulse wait-img\"></i>";
+    let wait_content = "<span>" + content + "</span>";
+    wait_div.innerHTML = wait_img + wait_content;
+
+    parent.prepend(wait_div);
+}
+
+function delete_wait_tip(parent) {
+    let wait_div = document.getElementById('wait-tip');
+    parent.removeChild(wait_div);
+}
+
 function ajax_post(url, form_data, success, error) {
     $.ajax({
             url: url,
@@ -216,7 +234,13 @@ function check_website_deploy(form) {
 }
 
 function check_website_form(form) {
-    return check_website_basic(form) && check_website_deploy(form);
+
+    let res = check_website_basic(form) && check_website_deploy(form);
+    if(res){
+        let parent = document.getElementById('container');
+        create_wait_tip(parent, "正在创建，这可能需要一些时间...");
+    }
+    return res;
 }
 
 function delete_theme(target) {
@@ -812,5 +836,37 @@ class Editor {
         this.title_changed = true;
     }
 }
+
+/* for user */
+function delete_user(password){
+    if (password === ''){
+        return;
+    }
+
+    let url = '/user/delete/';
+    let form_data = new FormData();
+    form_data.append('password', password);
+    form_data.append('csrfmiddlewaretoken', get_cookie('csrftoken'));
+
+    function success(data) {
+        $('#deleteModal').modal('hide');
+        if(data['url']){
+            goto_link(data['url']);
+        }
+        else if(data['tip']){
+            alert(data['tip']);
+        }
+    }
+
+    function error(data) {
+        $('#deleteModal').modal('hide');
+        if(data['tip']){
+            alert(data['tip']);
+        }
+    }
+    ajax_post(url, form_data, success, error);
+}
+
+/* global variable */
 
 var post_editor = new Editor();

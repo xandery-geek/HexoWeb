@@ -12,7 +12,7 @@ from django.forms import ModelForm
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django import forms
 from .models import User
 from PIL import Image
@@ -126,6 +126,21 @@ class UserSignOut(View):
         auth.logout(request)
         del request.session
         return render(request, 'index.html')
+
+
+class UserDeleteView(View):
+    @method_decorator(login_required(login_url='/account/login/'))
+    def post(self, request):
+        user = request.user
+        password = request.POST.get('password')
+        user = auth.authenticate(username=user.email, password=password)
+
+        if user is not None:
+            auth.logout(request)
+            user.delete()
+            return JsonResponse({'url': reverse('index')})
+
+        return JsonResponse({'tip': '注销失败，用户不存在或者密码错误'})
 
 
 def send_email(content):

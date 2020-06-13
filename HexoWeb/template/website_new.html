@@ -8,10 +8,15 @@
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
 {% endblock %}
 
 {% block main %}
-    <div class="container-fluid" style="height: 100%">
+    <div class="container-fluid" id="container" style="height: 100%">
+{#        <div class="wait-tip" id="wait-tip">#}
+{#            <i class="fas fa-spinner fa-pulse"></i>#}
+{#            <span>正在处理...</span>#}
+{#        </div>#}
         <div class="row blog-row">
             <div class="blog-left-block">
                 <nav class="blog-sidebar">

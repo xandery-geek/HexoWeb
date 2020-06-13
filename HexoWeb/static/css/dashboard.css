@@ -17,6 +17,24 @@ body{
     /*padding-bottom: 100%;*/
 }
 
+.wait-tip{
+    background-color: white;
+    /*background-color: #d1ecf1;*/
+    padding: 5px 20px 5px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 lightgray;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, 0);
+}
+
+.wait-img{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .blog-row{
     height: 100%;
     width: calc(100% + 30px);

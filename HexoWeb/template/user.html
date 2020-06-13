@@ -134,7 +134,16 @@
                                                 <div class="profile-content">
                                                     <div class="profile-item">
                                                         <div class="profile-label">退出账号</div>
+                                                        <div class="profile-value">退出当前账号</div>
                                                         <a class="profile-btn" href="{% url 'logout' %}"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-content">
+                                                    <div class="profile-item">
+                                                        <div class="profile-label">注销账号</div>
+                                                        <div class="profile-value">注销账号会删除用户所有信息</div>
+                                                        <a class="profile-btn" href="javascript:void (0);" onclick="$('#deleteModal').modal();"></a>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-divider"></div>
@@ -172,5 +181,42 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">注销账号</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: red">确定注销账号？一旦注销，该账号所有的数据都将被删除！</p>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputPassword">输入密码以确认删除</label>
+                            <input type="password" class="form-control" id="inputPassword" name="password">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deleteModalOk">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+{% endblock %}
+
+{% block extra_script2 %}
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            $('#deleteModalOk').on('click', function () {
+                let password = $('#inputPassword').val();
+                delete_user(password);
+                $(this).off('click');
+            });
+        });
+    </script>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 ## task list
 
+- [ ] install hexo plugins automatically
 - [ ] save post automatically
 - [ ] photo server
 - [ ] import from hexo directory

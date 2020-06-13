@@ -81,9 +81,9 @@ class User(AbstractBaseUser):
 
     def delete(self, using=None, keep_parents=False):
         if self.user_relative_path is not None:
-            os.rmdir(self.user_path)
+            os.system('rm -r ' + self.user_path)
         if self.photo_relative_path is not None:
-            os.rmdir(self.photo_path)
+            os.system('rm -r ' + self.photo_path)
         super().delete(using, keep_parents)
 
     @property
