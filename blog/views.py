@@ -16,12 +16,6 @@ import os
 blog_template = {'title': None, 'date': None, 'tags': None, 'categories': None}
 
 
-def get_article_path(website_path, article_id):
-    filename = '%04d.md' % article_id
-    filename = os.path.join(website_path, 'source/_posts', filename)
-    return filename
-
-
 def create_article(filename, article):
     """ create article according to blog post
     :param filename: the article path(filename)
@@ -33,7 +27,7 @@ def create_article(filename, article):
             f.write('---\n')
             data = dict(blog_template)
             data['title'] = article.title
-            data['date'] = article.update_time.astimezone(Post.cur_timezone).strftime('%Y-%m-%d %H:%M%S')
+            data['date'] = article.update_time.astimezone(Post.cur_timezone).strftime('%Y-%m-%d %H:%M:%S')
             tag_list = [tag.name for tag in article.tags.all()]
             if tag_list:
                 data['tags'] = tag_list
@@ -371,9 +365,9 @@ class PostOperateView(View):
         if title is None or title == '':
             return None
 
-        blog_post = Post.objects.create(title=title, content='', path='', website=self.website)
-        path = get_article_path(self.website.path, blog_post.id)
-        blog_post.path = path
+        blog_post = Post.objects.create(title=title, content='', website=self.website)
+        post_filename = "%04d.md" % blog_post.id
+        blog_post.relative_path = os.path.join('source/_posts', post_filename)
         blog_post.status = Post.STATUS_DRAFT
         return blog_post
 

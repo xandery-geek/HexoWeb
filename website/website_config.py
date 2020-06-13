@@ -3,7 +3,6 @@ import yaml
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WEBSITE_BASE_PATH = os.path.join(BASE_DIR, '../user_website')
 WEBSITE_TEMPLATE_PATH = os.path.join(BASE_DIR, 'template/website/blog')
 THEME_TEMPLATE_PATH = os.path.join(BASE_DIR, 'template/theme')
 SCRIPT_PATH = os.path.join(BASE_DIR, 'website/script')
@@ -15,11 +14,9 @@ else:
     suffix = ' >/dev/null 2>&1'
 
 
-def get_website_dir(user_id, website_id):
-    user_dir = '%04d' % user_id
+def get_website_dir(user_path, website_id):
     website_dir = 'blog{}'.format(website_id)
-    dst_path = os.path.join(WEBSITE_BASE_PATH, user_dir)
-    dst_path = os.path.join(dst_path, website_dir)
+    dst_path = os.path.join(user_path, website_dir)
     return dst_path
 
 
@@ -31,11 +28,6 @@ def create_website(path):
         return True
     else:
         return False
-
-
-def delete_website(path):
-    if os.path.exists(path):
-        os.system('rm -r ' + path)
 
 
 def update_website_config(path, website):
@@ -71,6 +63,11 @@ def deploy_website(website):
     command = "expect {} {} {} {} {}".format(expect_file, bash_file, website.path, website.git_username, website.git_password)
     command += suffix
     return os.system(command) == 0
+
+
+def install_plugins():
+    # install plugins in packages.json file
+    pass
 
 
 def change_theme(path, theme):

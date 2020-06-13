@@ -1,6 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+USER_PATH = os.path.join(BASE_DIR, '../user_website/')
+PHOTO_PATH = os.path.join(BASE_DIR, 'media/photo')
 
 
 class UserManager(BaseUserManager):
@@ -43,6 +48,10 @@ class User(AbstractBaseUser):
     # verify code valid time
     verify_time = models.DateTimeField(blank=True, null=True, verbose_name="verify created time")
 
+    # relative path
+    user_relative_path = models.CharField(max_length=32, default=None, blank=False, null=True, verbose_name='user website directory')
+    photo_relative_path = models.CharField(max_length=32, default=None, blank=False, null=True, verbose_name='user photos directory')
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -64,6 +73,27 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.user_relative_path is None or self.photo_relative_path is None:
+            self.photo_relative_path = self.user_relative_path = "%04d" % self.id
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        if self.user_relative_path is not None:
+            os.rmdir(self.user_path)
+        if self.photo_relative_path is not None:
+            os.rmdir(self.photo_path)
+        super().delete(using, keep_parents)
+
     @property
     def is_staff(self):
         return self.is_admin  # only superuser can login admin
+
+    @property
+    def user_path(self):
+        return os.path.join(USER_PATH, self.user_relative_path)
+
+    @property
+    def photo_path(self):
+        return os.path.join(PHOTO_PATH, self.photo_relative_path)

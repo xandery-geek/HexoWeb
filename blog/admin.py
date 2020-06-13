@@ -52,7 +52,7 @@ class PostAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Title', {
             'description': 'post basic information',
-            'fields': ('title', 'status')
+            'fields': ('title', 'status', 'relative_path')
         }),
         ('Content', {
             'description': 'add post content',

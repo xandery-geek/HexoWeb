@@ -84,8 +84,6 @@ class CreateWebsiteView(FormView):
             website = form.save(False)
             website.owner = request.user
             website.save()
-            website.path = get_website_dir(request.user.id, website.id)
-            website.save()
             if create_website(website.path) \
                     and update_website_config(website.path, website) \
                     and create_default_theme(website, website.cur_theme):
@@ -93,7 +91,6 @@ class CreateWebsiteView(FormView):
                 return self.form_valid(form)
 
             # if create website failed, delete the website
-            delete_website(website.path)
             website.delete()
 
         return self.form_invalid(form)
@@ -119,8 +116,6 @@ class DeleteWebsiteView(View):
             email = request.POST.get('email')
             if email == request.user.email:
                 website = Website.get_by_owner(request.user.id).get(pk=pk)
-                delete_website(website.path)
-
                 website.delete()
             else:
                 return JsonResponse({'tip': '用户名不正确!'})
@@ -163,7 +158,8 @@ class UpdateWebsiteView(View):
             return HttpResponseBadRequest()
 
     def deploy_website(self):
-        return self.update_config()
+        update_website_config(self.website.path, self.website)
+        return deploy_website(self.website)
 
     def get_basic(self):
         context = {
@@ -269,10 +265,6 @@ class UpdateWebsiteView(View):
             return False, {'tip': '表单填写不正确'}
 
         return True, {}
-
-    def update_config(self):
-        update_website_config(self.website.path, self.website)
-        return deploy_website(self.website)
 
 
 class ExportWebsiteView(View):

@@ -3,6 +3,7 @@ from django.db import models
 from website.models import Website
 from django.utils import timezone
 import pytz
+import os
 
 
 class Category(models.Model):
@@ -100,7 +101,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=256, verbose_name="title")
     content = models.TextField(verbose_name="content")
-    path = models.CharField(max_length=128, verbose_name="path")
+    relative_path = models.CharField(max_length=32, default=None, blank=False, null=True, verbose_name="path")
     status = models.PositiveIntegerField(default=STATUS_NORMAL, choices=STATUS_ITEMS, verbose_name="status")
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL, verbose_name="category")
     tags = models.ManyToManyField(Tag, blank=True, verbose_name="tag")
@@ -159,3 +160,7 @@ class Post(models.Model):
              update_fields=None):
         self.update_time = timezone.now()
         super().save(force_insert, force_update, using, update_fields)
+
+    @property
+    def path(self):
+        return os.path.join(self.website.path, self.relative_path)

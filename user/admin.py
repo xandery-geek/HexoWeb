@@ -80,6 +80,10 @@ class UserAdmin(BaseUserAdmin):
             'description': 'security information of user',
             'fields': ('password',)
         }),
+        ('Directory',{
+            'description': 'directory for user',
+            'fields': ('user_relative_path', 'photo_relative_path')
+        }),
     )
 
     add_fieldsets = (

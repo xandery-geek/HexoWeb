@@ -21,6 +21,6 @@ class WebsiteAdmin(admin.ModelAdmin):
         }),
         ('Website owner', {
             'description': 'select the owner for website',
-            'fields': ('owner', 'path')
+            'fields': ('owner', 'relative_path')
         })
     )

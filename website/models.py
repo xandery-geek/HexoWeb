@@ -1,6 +1,7 @@
 from django.db import models
 from user.models import User
 from .website_config import change_theme
+import os
 
 
 # Create your models here.
@@ -44,7 +45,7 @@ class Website(models.Model):
     git_password = models.CharField(max_length=64, blank=False, verbose_name='git password')
 
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='website owner')
-    path = models.CharField(max_length=128, default='', blank=False, verbose_name='website path')
+    relative_path = models.CharField(max_length=32, default=None, blank=False, null=True, verbose_name='website path')
     creat_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
 
     def __str__(self):
@@ -52,6 +53,23 @@ class Website(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        super(Website, self).save(force_insert, force_update, using,update_fields)
+        if self.relative_path is None:
+            self.relative_path = 'blog{}'.format(self.id)
+        super(Website, self).save(force_insert, force_update, using,update_fields)
+
+    def delete(self, using=None, keep_parents=False):
+        if os.path.exists(self.path):
+            os.system('rm -r ' + self.path)
+        super(Website, self).delete(using, keep_parents)
+
+    @property
+    def path(self):
+        return os.path.join(self.owner.user_path, self.relative_path)
 
     @classmethod
     def get_by_owner(cls, owner_id):
