@@ -28,6 +28,7 @@ from theme.view.views import ThemeView, ThemeOperateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
+    path('about', TemplateView.as_view(template_name='about.html'), name='about'),
     path('account/login/', UserSignIn.as_view(), name='login'),
     path('account/signup/', UserSignup.as_view(), name='signup'),
     path('account/logout/', UserSignOut.as_view(), name='logout'),

@@ -42,8 +42,8 @@ class Category(models.Model):
         if cate is None:
             return
         count = Post.objects.filter(category=cate).count()
-        # database has not been updated now, so the count is one but not zero.
-        if count == 1:
+
+        if count == 0:
             cate.delete()
 
 
@@ -81,10 +81,9 @@ class Tag(models.Model):
     @classmethod
     def auto_delete(cls, tag_list):
         for tag in tag_list:
-            count = Post.objects.filter(tags__in=tag).count()
+            count = Post.objects.filter(tags=tag).count()
 
-            # database has not been updated now, so the count is one but not zero.
-            if count == 1:
+            if count == 0:
                 tag.delete()
 
 
@@ -127,7 +126,9 @@ class Post(models.Model):
             # remove category when no posts rely on it
             old_cate = self.category
             self.category = cate
-            Category.auto_delete(old_cate)
+            return old_cate
+        else:
+            return None
 
     def update_tags(self, tag_list, website):
         new_set = set(tag_list)
@@ -138,7 +139,7 @@ class Post(models.Model):
         self.tags.add(*list(added))  # 将列表分解为独立的参数
 
         # remove tag when no posts rely on it
-        Tag.auto_delete(list(removed))
+        return list(removed)
 
     @classmethod
     def get_by_website(cls, website_id):

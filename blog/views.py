@@ -438,24 +438,30 @@ class PostOperateView(View):
         if content is not None:
             blog_post.content = content
 
+        old_cate = None
+        old_tags = []
         try:
             if category is not None:
                 if category == '':
                     blog_post.category = None
                 else:
                     cate = Category.objects.get(name=category, website=self.website)
-                    blog_post.update_category(cate)
+                    old_cate = blog_post.update_category(cate)
 
             if tag_list is not None:
                 tag_list = tag_list.split(',')
                 tags = Tag.objects.filter(name__in=tag_list, website=self.website)
-                blog_post.update_tags(tags, website=self.website)
+                old_tags = blog_post.update_tags(tags, website=self.website)
         except ObjectDoesNotExist:
             return {'tip': '分类或者标签不存在，请先创建！'}
 
         if title or status or content or tag_list or category:
             blog_post.changed = True
             blog_post.save()
+
+            # auto delete category and tag which is not relied on
+            Category.auto_delete(old_cate)
+            Tag.auto_delete(old_tags)
 
         return context
 

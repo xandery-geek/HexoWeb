@@ -4,6 +4,22 @@
     {{ title }}
 {% endblock %}
 
+{% block extra_script%}
+    <style>
+        .favicon-img {
+            float: right;
+            width: 100px;
+            border: 1px solid #e1e4e8;
+        }
+        .banner-img{
+            width: 100%;
+            border: 1px solid #e1e4e8;
+        }
+
+    </style>
+{% endblock %}
+
+
 {% block theme_form %}
     {% if id %}
         <form enctype="multipart/form-data" action="{% url 'theme_operate' id name operate %}"
@@ -30,7 +46,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <img style="float: right; width: 100px" src="{{ favicon }}" alt="">
+                <img class="favicon-img" src="{{ favicon }}" alt="">
             </div>
         </div>
         <div class="form-row form-group">
@@ -45,7 +61,7 @@
                 </div>
             </div>
             <div class="coll-sm-12">
-                <img style="width: 100%" src="{{ banner }}" alt="">
+                <img class="banner-img" src="{{ banner }}" alt="">
             </div>
         </div>
         <div class="form-row">
@@ -65,7 +81,9 @@
             </div>
         </div>
         <div class="form-row form-group">
-            <label class="website-form-title">侧边栏配置</label>
+            <div class="col-sm-12">
+                <label class="website-form-title">侧边栏配置</label>
+            </div>
             <div class=" col-sm-12">
                 <label for="sidebar_position">侧边栏位置</label>
                 <select class="custom-select" id="sidebar_position" name="position">

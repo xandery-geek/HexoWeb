@@ -1,6 +1,7 @@
 # template files for hexo, such as website and theme
 template/website/
 template/theme/
+video/
 
 # IDEA config file
 *.iml

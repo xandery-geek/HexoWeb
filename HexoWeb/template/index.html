@@ -11,10 +11,48 @@
         <div class="row index-row">
             <div class="col-12">
                 <div class="index-main-block">
-                    <h1 class="index-title"> A web client for Hexo blog </h1>
-                    <p class="index-subtitle">丰富的主题支持，强大的Markdown编辑器，Hexo web帮助您快速建立自己的博客网站</p>
+                    <h1 class="index-title"> A Web Client For Hexo Blog </h1>
+                    <p class="index-subtitle">强大的博客框架，丰富的主题支持，Hexo Web帮助您快速建立自己的博客网站</p>
                     <div style="text-align: center">
                         <img class="index-main-img" src="{%  static  'img/index/index.png'%}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-intro-block" style="text-align: center">
+                    <p class="index-subtitle">可视化配置，结构化管理，专业Markdown编辑器，Hexo Web让创作如丝般顺滑。</p>
+                    <video class="index-video" controls>
+                        <source src="{% static 'video/hexo-web.mp4' %}" type="video/mp4">
+{#                        <source src="movie.ogg" type="video/ogg">#}
+{#                        <source src="movie.webm" type="video/webm">#}
+{#                        <object data="movie.mp4" width="320" height="240">#}
+{#                            <embed src="movie.swf" width="320" height="240">#}
+{#                        </object>#}
+                    </video>
+                </div>
+            </div>
+        </div>
+        <div class="row index-row">
+            <div class="col-12">
+                <div class="index-intro-block">
+                    <div class="row col-sm-12" style="text-align: center">
+                        <h1 class="index-title index-title-mid">强大的框架与专业的管理</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <h2 class="index-intro-title">Hexo Blog Framework</h2>
+                            <p class="index-intro-text">
+                                网站使用Hexo搭建，支持Markdown语法，提供丰富的主题。几分钟内就可以创建一个属于自己的博客网站。
+                                云端存储，随时随地通过网络访问，随意创作，随心发布。
+                            </p>
+                        </div>
+                        <div class="col-sm-12 col-md-6 index-intro-col">
+                            <div>
+                                <img class="index-intro-img" src="{%  static  'img/index/hexo.png'%}" alt="">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,15 +63,13 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6 index-intro-col">
                             <div>
-                                <img class="index-intro-img" src="{%  static  'img/index/hexo.png'%}" alt="">
+                                <img class="index-intro-img" src="{%  static  'img/index/theme.png'%}" alt="">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 index-intro-col">
-                            <h2 class="index-intro-title">Hexo Blog Framework</h2>
-                            <p class="index-intro-text">
-                                网站使用Hexo搭建，支持Markdown语法，提供丰富的主题。几分钟内就可以创建一个属于自己的博客网站。
-                                云端存储，随时随地通过网络访问，随意创作，随心发布。
-                            </p>
+                            <h2 class="index-intro-title">丰富的主题</h2>
+                            <img class="index-intro-icon" src="{% static '/img/theme.png' %}" alt="">
+                            <p class="index-intro-text">支持多款Hexo主题，轻松定制属于自己的博客网站。不同风格一键切换，摆脱平庸，成就不凡。</p>
                         </div>
                     </div>
                 </div>
@@ -97,30 +133,12 @@
             </div>
         </div>
     </div>
-    <div class="row index-row">
-        <div class="col-12">
-            <div class="index-intro-block">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 index-intro-col">
-                        <div>
-                            <img class="index-intro-img" src="{%  static  'img/index/theme.png'%}" alt="">
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 index-intro-col">
-                        <h2 class="index-intro-title">丰富的主题</h2>
-                        <img class="index-intro-icon" src="{% static '/img/theme.png' %}" alt="">
-                        <p class="index-intro-text">支持多款Hexo主题，轻松定制属于自己的博客网站。不同风格一键切换，摆脱平庸，成就不凡。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="py-3 index-footer">
         <div class="container">
             <div class="small text-center index-footer-link">
-                <a href="{% url 'index'%}">关于Hexo Web</a>
+                <a href="{% url 'about'%}">关于Hexo Web</a>
                 <a href="https://github.com/yx1302317313/HexoWeb">项目Github</a>
                 <a href="{% url 'index'%}">致谢</a>
             </div>

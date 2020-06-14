@@ -104,7 +104,10 @@
                 <div class="editor-right-card">
                     <h3>图床</h3>
                     <div class="editor-right-divider"></div>
-                    <a class="editor-right-a" href="{% url 'image' %}">我的图床</a>
+                    <div class="editor-right-operation">
+                        <button type="button" class="editor-right-btn" style="width: auto"
+                                onclick="goto_link('{% url 'image' %}');">我的图床</button>
+                    </div>
                 </div>
             </div>
         </div>

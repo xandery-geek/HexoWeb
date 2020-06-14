@@ -1,4 +1,4 @@
-h1,h1,h3,h4,h5,h6,p,div{
+h1,h2,h3,h4,h5,h6,p,div{
     color: rgb(14, 131, 205);
 }
 
@@ -60,29 +60,47 @@ body{
 }
 
 .index-main-block{
-    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
     padding-bottom: 40px;
 }
 
 .index-title{
     text-align: center;
-    padding-top: 64px;
-    padding-bottom: 16px;
+    width: 100%;
+    margin-top: 64px;
+    margin-bottom: 16px;
     color: #262626;
+}
+
+.index-title-mid{
+    margin-top: 0;
+    margin-bottom: 80px;
 }
 
 .index-subtitle{
     text-align: center;
     font-size: 1.2rem;
     margin-bottom: 50px;
-    color: #595959;
+    color: rgba(38, 38, 38, 0.9);
 }
 
 .index-main-img{
-    width: 700px;
+    width: 640px;
     max-width: 90%;
     height: auto;
+}
+
+.index-video{
+    width: 640px;
+    max-width: 90%;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 20px rgba(14, 131, 205, 0.3); /* older Firefox */
+    box-shadow: 0 0 20px rgba(14, 131, 205, 0.3);
+}
+
+.index-video:focus{
+    outline: none;
 }
 
 .index-intro-block{
@@ -115,9 +133,11 @@ body{
 
 .index-intro-img{
     width: 411px;
+    max-width: 90%;
     height: auto;
-    -moz-box-shadow: 5px 5px 20px rgba(14, 131, 205, 0.2); /* older Firefox */
-    box-shadow: 10px 10px 20px rgba(14, 131, 205, 0.2);
+    border-radius: 10px;
+    -moz-box-shadow: 10px 10px 20px rgba(14, 131, 205, 0.3); /* older Firefox */
+    box-shadow: 10px 10px 20px rgba(14, 131, 205, 0.3);
 }
 
 .index-intro-col{
@@ -150,7 +170,7 @@ body{
     top: 80px;
     width: 400px;
     max-width: 100%;
-    margin: 50px auto;
+    margin: 80px auto;
     padding: 50px 50px 10px;
     background-color: rgb(246, 247, 251);
     border-radius: 10px;
@@ -217,4 +237,44 @@ body{
 .login-a:hover{
     text-decoration: none;
     color: rgba(14, 131, 205, 1);
+}
+
+/* for about */
+.about-block{
+    position: relative;
+    top: 80px;
+    padding-top: 50px;
+    margin: 0 auto 80px auto;
+    overflow-y: auto;
+}
+
+.about-block h1,.about-block h2,.about-block h3,.about-block h4,
+.about-block h5,.about-block h6,.about-block p,.about-block div{
+    color: black;
+}
+
+.about-block h4{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.about-title{
+    text-align: center;
+    padding: 10px;
+}
+
+.about-content{
+    padding-top: 10px;
+    width: 660px;
+    max-width: 100%;
+    margin: auto;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.about-content-lv2{
+    padding-bottom: 30px;
+}
+
+.about-content-lv3{
+    padding-bottom: 20px;
 }

@@ -307,11 +307,10 @@ class ProfileView(View):
         else:
             avatar = user.avatar
 
-        desc = user.desc[:10]
         context = {
             'avatar': avatar,
             'nick': user.nick,
-            'desc': desc,
+            'desc': user.desc,
             'email': user.email,
             'password': '******',
         }

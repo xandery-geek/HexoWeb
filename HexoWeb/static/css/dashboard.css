@@ -279,12 +279,17 @@ body{
 
 .blog-tag{
     display: inline-block;
-    background: #f1f8ff;
+    background: rgba(38,125,204,.05);
+    color: var(--main-theme-color);
     border-radius: 5px;
-    margin: 5px;
+    border: 1px solid rgba(38,125,204,.2);
+    margin: 0 5px;
     text-align: center;
-    width: 80px;
+    padding: 0 10px;
+    width: auto;
+    min-width: 50px;
     height: 30px;
+    line-height: 30px;
     white-space: nowrap;
     text-overflow:ellipsis; overflow:hidden;
 }
@@ -307,15 +312,16 @@ body{
 }
 
 .website-form-title{
-    width: calc(100% + 20px);
+    width: calc(100% + 30px);
     height: 30px;
     line-height: 30px;
-    color: #0c5460;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
+    /*color: #0c5460;*/
+    background-color:  rgba(14, 131, 205, 0.7);
+    /*border-color: #bee5eb;*/
     padding-left: 10px;
-    margin-left: -10px;
-    margin-right: -10px;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: 20px;
 }
 
 .website-main-block{

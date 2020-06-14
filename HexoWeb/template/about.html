@@ -1,0 +1,108 @@
+{% extends "index_base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Hexo Web | About
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 about-block">
+                <div class="about-content">
+                    <h2 class="about-title">Hexo Web 是什么</h2>
+
+                    <div class="about-content-lv2">
+                        <h4>缘起</h4>
+                        <p><strong>&lceil; Hexo Web &rfloor;</strong> 是<strong>&lceil; Hexo &rfloor;</strong>的一个网页客户端。可以<strong>帮助用户快速创建自己的博客网站</strong>。</p>
+                        <p><strong>&lceil; Hexo Web &rfloor;</strong>使用 <a href='https://hexo.io' title='Hexo'>Hexo</a> 框架为用户搭建网站。Hexo是一个杰出的博客网站框架，拥有Markdown语法支持，丰富的主题选择等许多优势。是许多计算机专业人士和计算机爱好者搭建博客网站不二选择，甚至一些其他行业的人员也在使用Hexo。</p>
+                        <p>但是，由于Hexo诞生之初就有一定面向专业人士的基因。尽管Hexo提供了相对简单的部署方案，但对于一些不熟悉计算机环境的人来说，软件环境的配置即相关文件的修改足以使其望而却步。</p>
+                        <p>同时Hexo的源文档保存在本地计算机，很难做到多客户端访问和多人协作。目前大多数针对此类情况的解决方案都是借助Git服务器采取曲线救国的方案。</p>
+                        <p><strong>&lceil; Hexo Web &rfloor;</strong>的诞生主要是为了解决上述的两大问题。</p>
+
+                        <h4>Hexo Web的解决方案</h4>
+                        <p><strong>&lceil; Hexo Web &rfloor;</strong>将所有源文档都放在云端（服务器端），在服务器端自动完成Hexo环境的搭建和配置文件的修改。用户只需要通过浏览器即可进行创作和网站管理，使用户无需关注Hexo的任何细节。即使不熟悉计算机的相关技术，也可以快速创建一个属于自己的博客网站。</p>
+                        <p>由于网站和文章全部存储在云端，用户随时随地可以通过设备的浏览器管理网站，创建博客。同时轻松解决多客户端访问和多人协作问题。</p>
+                    </div>
+
+                    <h2 class="about-title">使用场景</h2>
+
+                    <div class="about-content-lv2">
+                        <div class="about-content-lv3">
+                            <p>如果你想建立一个属于自己的博客网站，但是又不满足于大多数博客网站千篇一律的风格，抑或是其混乱的布局，甚至是无处不在的广告。请选择<strong>&lceil; Hexo Web &rfloor;</strong>。</p>
+                        </div>
+                        <div class="about-content-lv3">
+                            如果你是一个Hexo Blog的用户，希望通过自己的移动设备（如手机，PAD等）也能管理自己的网站，随时进行创作。请选择<strong>&lceil; Hexo Web &rfloor;</strong>。
+                        </div>
+                        <p>&nbsp;</p>
+                    </div>
+
+                    <h2 class="about-title">服务</h2>
+
+                    <div class="about-content-lv2">
+                        <p><strong>&lceil; Hexo Web &rfloor;</strong> 围绕<strong>网站管理</strong>和<strong>博客创作</strong>提供核心服务。</p>
+
+                        <h4>可视化配置</h4>
+                        <p>提供可视化的网站配置和主题配置，帮助用户创建一个别具一格的个人网站。</p>
+
+                        <h4>个性化主题</h4>
+                        <p>支持多款Hexo主题，可以根据用户喜好进行个性化设置，不同风格一键切换。</p>
+                        <ul>
+                            <li><label>
+                                <input type='checkbox' disabled='disabled' checked/>
+                            </label>
+                                <span><a href='https://hexojs.github.io/hexo-theme-landscape/' title='Landscape'>Landscape</a></span>
+                            </li>
+                            <li><label>
+                                <input type='checkbox' disabled='disabled' checked/>
+                            </label>
+                                <span><a href='https://theme-materialized.github.io/' title='Material'>Material</a></span>
+                            </li>
+                            <li><label>
+                                <input type='checkbox' disabled='disabled' checked/>
+                            </label>
+                                <span><a href='https://joeybling.github.io/' title='Yilia'>Yilia</a></span>
+                            </li>
+                            <li><label>
+                                <input type='checkbox' disabled='disabled' checked/>
+                            </label>
+                                <span><a href='https://heskeybaozi.github.io/' title='Lite'>Lite</a></span>
+                            </li>
+                            <li><label>
+                                <input type='checkbox' disabled='disabled' />
+                            </label>
+                                <span>...</span>
+                            </li>
+                        </ul>
+
+                        <h4>结构化文档</h4>
+                        <p>结构化文章管理，支持分类、标签和草稿等。博客文章尽收眼底，一目了然。</p>
+
+                        <h4>强大的Markdown编辑器</h4>
+                        <p>使用开源 Editormd 编辑器，支持Markdown、图片、表格、代码块、LaTeX 公式等专业编辑能力。 在线实时预览，让你专注于创作。</p>
+
+                        <h4>图床服务</h4>
+                        <p>提供免费的图床服务，本地图片一键上传。</p>
+                    </div>
+                    {#                <h2>使用说明</h2>#}
+                    {#                #}
+                    {#                <h4>注册</h4>#}
+                    {#                <h4>创建您的第一个网站</h4>#}
+                    {#                <h4>发布文章</h4>#}
+                    {#                <h4>更换主题</h4>#}
+                    {#                <h4>使用图床</h4>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-3 index-footer">
+        <div class="container">
+            <div class="small text-center text-muted">Copyright &copy; 2020 XuYuan</div>
+        </div>
+    </footer>
+
+{% endblock %}
+
