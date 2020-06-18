@@ -86,7 +86,8 @@ class CreateWebsiteView(FormView):
             website.save()
             if create_website(website.path) \
                     and update_website_config(website.path, website) \
-                    and create_default_theme(website, website.cur_theme):
+                    and create_default_theme(website, website.cur_theme)\
+                    and install_plugins(website.path):
 
                 return self.form_valid(form)
 

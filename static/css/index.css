@@ -1,0 +1,280 @@
+h1,h2,h3,h4,h5,h6,p,div{
+    color: rgb(14, 131, 205);
+}
+
+body{
+    background-color: rgb(246, 247, 251);
+}
+
+/***************************** for index *****************************************/
+
+.index-nav{
+    padding-left: 30px;
+    padding-right: 49px;
+    height: 80px;
+    background-color: rgb(246, 247, 251);
+    -moz-box-shadow: 0 0 24px rgba(14, 131, 205, 0.08); /* older Firefox */
+    box-shadow: 0 0 24px rgba(14, 131, 205, 0.08);
+}
+
+.a-btn{
+    text-decoration: none;
+    color: rgba(14, 131, 205, 0.8);
+}
+
+.a-btn:link, .a-btn:active, .a-btn:visited{
+    text-decoration: none;
+    color: rgba(14, 131, 205, 0.8);
+}
+
+.a-btn:hover{
+    color: rgba(14, 131, 205, 1);
+}
+
+.index-login-btn{
+    display: inline-block;
+    width: 83px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0;
+    text-align: center;
+}
+
+.index-signup-btn{
+    display: inline-block;
+    width: 83px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0;
+    background-color: rgb(246, 247, 251);
+    text-align: center;
+    border-radius: 10rem;
+    -moz-box-shadow: 0 0 17px rgba(14, 131, 205, 0.08); /* older Firefox */
+    box-shadow: 0 0 17px rgba(14, 131, 205, 0.08);
+}
+
+.index-row{
+    position: relative;
+    top: 80px;
+    margin-bottom: 56px;
+}
+
+.index-main-block{
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+.index-title{
+    text-align: center;
+    width: 100%;
+    margin-top: 64px;
+    margin-bottom: 16px;
+    color: #262626;
+}
+
+.index-title-mid{
+    margin-top: 0;
+    margin-bottom: 80px;
+}
+
+.index-subtitle{
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 50px;
+    color: rgba(38, 38, 38, 0.9);
+}
+
+.index-main-img{
+    width: 640px;
+    max-width: 90%;
+    height: auto;
+}
+
+.index-video{
+    width: 640px;
+    max-width: 90%;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 20px rgba(14, 131, 205, 0.3); /* older Firefox */
+    box-shadow: 0 0 20px rgba(14, 131, 205, 0.3);
+}
+
+.index-video:focus{
+    outline: none;
+}
+
+.index-intro-block{
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 40px 100px;
+}
+
+.index-intro-title{
+    display: inline-block;
+    margin-bottom: 48px;
+    padding-right: 20px;
+}
+
+.index-intro-subtitle{
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.index-intro-text{
+    font-size: 1rem;
+}
+
+.index-intro-icon{
+    display: inline-block;
+    vertical-align: top;
+    width: 40px;
+    height: 40px;
+}
+
+.index-intro-img{
+    width: 411px;
+    max-width: 90%;
+    height: auto;
+    border-radius: 10px;
+    -moz-box-shadow: 10px 10px 20px rgba(14, 131, 205, 0.3); /* older Firefox */
+    box-shadow: 10px 10px 20px rgba(14, 131, 205, 0.3);
+}
+
+.index-intro-col{
+    padding: 20px 40px;
+}
+
+.index-footer{
+    background: transparent;
+}
+
+.index-footer-link{
+    margin: 10px 0;
+}
+
+.index-footer-link a{
+    padding: 0 40px;
+    color: #8c8c8c;
+    font-size: 0.9rem;
+}
+
+.index-footer-link a:hover{
+    padding: 0 40px;
+    text-decoration: none;
+    color: #595959;
+}
+
+/***************************** for login **************************************/
+.login-block{
+    position: relative;
+    top: 80px;
+    width: 400px;
+    max-width: 100%;
+    margin: 80px auto;
+    padding: 50px 50px 10px;
+    background-color: rgb(246, 247, 251);
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 20px rgba(14, 131, 205, 0.3); /* older Firefox */
+    box-shadow: 0 0 20px rgba(14, 131, 205, 0.3);
+    text-align: center;
+}
+
+.login-logo{
+    width: 100px;
+}
+
+.login-form{
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.login-form-div{
+
+}
+
+.login-form-icon{
+    position: absolute;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    top: 15%;
+    height: 70%;
+}
+
+.login-form-control{
+    /*background-image: url("../img/lock2.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 30px;*/
+    height: calc(1.5em + 1rem + 2px);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 60px;
+    display: inline;
+    background-color: transparent;
+}
+
+.login-btn{
+    width: 100%;
+    border: 1px solid rgb(14, 131, 205);
+    border-radius: 5px;
+    color: rgb(14, 131, 205);
+}
+
+.login-btn:hover{
+    color: rgb(14, 131, 205);
+    -moz-box-shadow: 0 0 10px rgba(14, 131, 205, 0.3); /* older Firefox */
+    box-shadow: 0 0 10px rgba(14, 131, 205, 0.3);
+}
+
+.login-a{
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: rgba(14, 131, 205, 0.6);
+}
+
+.login-a:hover{
+    text-decoration: none;
+    color: rgba(14, 131, 205, 1);
+}
+
+/* for about */
+.about-block{
+    position: relative;
+    top: 80px;
+    padding-top: 50px;
+    margin: 0 auto 80px auto;
+    overflow-y: auto;
+}
+
+.about-block h1,.about-block h2,.about-block h3,.about-block h4,
+.about-block h5,.about-block h6,.about-block p,.about-block div{
+    color: black;
+}
+
+.about-block h4{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.about-title{
+    text-align: center;
+    padding: 10px;
+}
+
+.about-content{
+    padding-top: 10px;
+    width: 660px;
+    max-width: 100%;
+    margin: auto;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.about-content-lv2{
+    padding-bottom: 30px;
+}
+
+.about-content-lv3{
+    padding-bottom: 20px;
+}

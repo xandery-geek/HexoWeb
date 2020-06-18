@@ -25,7 +25,7 @@ SECRET_KEY = '9jy0(08*li4pj8n2o9qdc8lxa&)300b+q)cbk-#u_)i%*94sa$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'hexo.jiayuanxu.com']
 
 
 # Application definition
@@ -138,10 +138,10 @@ AUTHENTICATION_BACKENDS = ('user.views.UserBackend',)
 
 # config for email service
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_PORT = 25
+EMAIL_PORT = 465
 EMAIL_HOST_USER = 'gungnir0504@163.com'
 EMAIL_HOST_PASSWORD = 'GWPSYEIRSAWDBHJE'
 

@@ -74,7 +74,7 @@ def install_plugins(path):
     # install plugins in packages.json file
     bash_file = os.path.join(SCRIPT_PATH, 'install.sh')
     command = "bash {} {}".format(bash_file, path)
-    os.system('')
+    os.system(command)
 
 
 def change_theme(path, theme):
