@@ -405,9 +405,11 @@ class PostOperateView(View):
             post.save()
             delete_article(post.path)
             create_article(post.path, post)
-        deploy_website(self.website)
 
-        return {}
+        if deploy_website(self.website):
+            return {'tip': '发布成功'}
+        else:
+            return {'tip': '发布失败'}
 
     def save(self, request, blog_post=None):
         context = {}

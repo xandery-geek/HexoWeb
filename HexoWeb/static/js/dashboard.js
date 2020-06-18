@@ -552,12 +552,12 @@ function update_all_post() {
                     alert(data['tip']);
                 }
                 else {
-                    alert('更新文章成功');
+                    alert('发布文章失败');
                 }
             },
             error: function (data) {
                 $('#updateModal').modal('hide');
-                alert('更新文章失败' + data['tip']);
+                alert('发布文章失败' + data['tip']);
             }
         }
     );
