@@ -4,5 +4,5 @@ content=""
 printf "prompt:"
 read -r content
 echo "$content"
-exit 1
+exit 0
 

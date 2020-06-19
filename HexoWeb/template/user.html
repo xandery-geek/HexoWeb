@@ -212,10 +212,11 @@
 {% block extra_script2 %}
     <script>
         $('#deleteModal').on('show.bs.modal', function (event) {
-            $('#deleteModalOk').on('click', function () {
+            let modal_ok = $('#deleteModalOk');
+            modal_ok.off('click');
+            modal_ok.on('click', function () {
                 let password = $('#inputPassword').val();
                 delete_user(password);
-                $(this).off('click');
             });
         });
     </script>

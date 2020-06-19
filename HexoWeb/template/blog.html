@@ -224,7 +224,10 @@
         $('#deleteModal').on('show.bs.modal', function (event) {
             let target = $(event.relatedTarget) // Button that triggered the modal
             let id = target.data('id') // Extract info from data-* attributes
-            $('#deleteModalOk').on('click', function () {
+
+            let modal_ok = $('#deleteModalOk');
+            modal_ok.off('click');
+            modal_ok.on('click', function () {
                 delete_post(id);
             });
         });
@@ -234,11 +237,12 @@
             modal.find('.modal-body i').css("display", "none");
             modal.find('.modal-body span').text("确定发布所有已经更新的文章？");
 
-            $('#updateModalOk').on('click', function () {
+            let modal_ok = $('#updateModalOk');
+            modal_ok.off('click');
+            modal_ok.on('click', function () {
                 update_all_post();
                 modal.find('.modal-body i').css("display", "inline-block");
                 modal.find('.modal-body span').text("正在更新，请稍等...");
-                $(this).off('click');
             });
         });
     </script>
